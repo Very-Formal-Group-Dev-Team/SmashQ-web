@@ -12,7 +12,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
             <Header open={() => setIsOpen(true)} />
             <div className="flex flex-1">
                 <Sidebar isOpen={isOpen} close={() => setIsOpen(false)} />
-                <main className="flex-1 p-20">{children}</main>
+                <main className="flex-1 p-8 sm:p-16">{children}</main>
             </div>
         </div>
   )

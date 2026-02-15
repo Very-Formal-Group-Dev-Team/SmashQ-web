@@ -3,6 +3,7 @@
 import Link from "next/link"
 import { usePathname } from "next/navigation"
 import { FiUser, FiPlusCircle, FiServer, FiLogOut } from "react-icons/fi"
+import { IoClose } from "react-icons/io5";
 
 interface SidebarProps {
   isOpen: boolean
@@ -35,8 +36,8 @@ export default function Sidebar({ isOpen, close }: SidebarProps) {
                     lg:static lg:translate-x-0 lg:shadow-lg
                 `}
             >
-                <button onClick={close} className="p-4 lg:hidden" aria-label="Close Menu">
-                ✕
+                <button onClick={close} className="text-3xl p-6 cursor-pointer lg:hidden" aria-label="Close Menu">
+                    <IoClose />
                 </button>
 
                 <nav className="flex flex-col p-8 gap-16 text-lg justify-between">
@@ -48,7 +49,7 @@ export default function Sidebar({ isOpen, close }: SidebarProps) {
                                     key={item.href}
                                     href={item.href} 
                                     onClick={close} 
-                                    className={`flex items-center gap-3 px-3 py-1 ${isActive ? "bg-white rounded-lg" : ""}`}
+                                    className={`flex items-center gap-3 px-3 py-1 transform duration-150 hover:bg-white hover:rounded-lg ${isActive ? "bg-white rounded-lg" : ""}`}
                                 >
                                     {item.icon} {item.name}
                                 </Link>

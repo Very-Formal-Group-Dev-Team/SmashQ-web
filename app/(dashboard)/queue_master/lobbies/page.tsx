@@ -38,7 +38,6 @@ const lobbies: lobbyProps[] = [
 ]
 
 export default function QueueMasterDashboardPage() {
-
     return (
         <div>
             <ol className="grid grid-cols-[repeat(auto-fit,minmax(250px,1fr))] gap-12">
@@ -47,6 +46,7 @@ export default function QueueMasterDashboardPage() {
                         <LobbyCard id={lobby.id} players={lobby.players}/>
                     </li>
                 ))}
+                <li className="flex justify-center"><LobbyCard variant="create"/></li>
             </ol>
         </div>
     )
