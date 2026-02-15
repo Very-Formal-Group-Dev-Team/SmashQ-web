@@ -4,7 +4,8 @@ import AuthFormInput from "./ui/AuthFormInput"
 import AuthFormButton from "./ui/AuthFormButton"
 import SmashQTitle from "./ui/SmashQTitle"
 import Dropdown from "./ui/Dropdown"
-import { useState } from "react"
+import { useEffect, useState } from "react"
+import { useRouter } from "next/navigation"
 
 type Mode = "register" | "login"
 
@@ -15,10 +16,16 @@ export default function AuthForm({ mode }: {mode: Mode}) {
     const [passwordConfirm, setPasswordConfirm] = useState("")
     const [role, setRole] = useState("")
     const [loading, setLoading] = useState(false)
+    const router = useRouter()
     
+    const handleLogin = (e: React.FormEvent) => {
+        e.preventDefault()
+        router.push("/queue_master")
+    }
+
     return (
-        <div className="bg-[#368F66] h-lvh">
-            <form className="pl-10 pr-10 pt-10 pb-10 bg-[#E2E1E0] absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 flex flex-col justify-center items-center gap-6 rounded-lg w-[370px]">
+        <div className="bg-primary h-lvh">
+            <form className="pl-10 pr-10 pt-10 pb-10 bg-secondary absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 flex flex-col justify-center items-center gap-6 rounded-xl w-[370px]">
                 <div className="flex flex-col text-center gap-1"> 
                     <SmashQTitle />
                     <p className="text-gray-700">
@@ -50,7 +57,7 @@ export default function AuthForm({ mode }: {mode: Mode}) {
                             onChange={(e) => setUsername(e.target.value)}
                         />
                         <AuthFormInput
-                            type="text"
+                            type="email"
                             placeholder="Email"
                             value={email}
                             onChange={(e) => setEmail(e.target.value)}
@@ -84,7 +91,7 @@ export default function AuthForm({ mode }: {mode: Mode}) {
                 <div className="flex flex-col gap-3 w-full">
                     {mode === "login" ? 
                     <>
-                        <AuthFormButton variant="login" />
+                        <AuthFormButton variant="login" onClick={handleLogin}/>
                         <AuthFormButton variant="guest" />
                         <AuthFormButton variant="googleLogin" />
                     </> : 

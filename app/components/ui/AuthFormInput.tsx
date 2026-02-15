@@ -14,8 +14,8 @@ export default function AuthFormInput({ type, placeholder, value, onChange } : p
             placeholder={placeholder || "hello"} 
             value={value}
             onChange={onChange}  
-            className="text-md bg-gray-50 border border-gray-600 rounded-sm py-3 px-4"
-            required
+            className="text-md bg-gray-50 border border-gray-600 rounded-md py-3 px-4"
+            // required
         >
         </input>
     )

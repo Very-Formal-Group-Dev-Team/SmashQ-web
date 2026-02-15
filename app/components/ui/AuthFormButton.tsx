@@ -1,17 +1,19 @@
 import GoogleIcon from "./GoogleIcon";
 
 interface buttonProps {
+    type: string
     variant: "login" | "register" | "guest" | "googleLogin" | "googleRegister"
+    onClick: React.MouseEventHandler
     children?: React.ReactNode
 }
 
-export default function AuthFormButton({ variant, children }: buttonProps) {
+export default function AuthFormButton({ type, variant, onClick, children }: buttonProps) {
     let className = "";
 
     if (variant === "login" || variant === "register" || variant === "guest") {
-        className = "font-semibold pt-3 pb-3 rounded-sm cursor-pointer text-white bg-[#368F66]"
+        className = "font-semibold pt-3 pb-3 rounded-sm cursor-pointer text-white bg-primary"
     } else {
-        className= "font-semibold pt-3 pb-3 rounded-sm cursor-pointer text-black bg-white border border-gray-600 flex items-center justify-center gap-3"
+        className= "font-semibold pt-3 pb-3 rounded-md cursor-pointer text-black bg-white border border-gray-600 flex items-center justify-center gap-3"
     }
 
     children =  variant === "login" ? "Login" :
@@ -21,7 +23,7 @@ export default function AuthFormButton({ variant, children }: buttonProps) {
                 <><GoogleIcon/> Sign up with Google</>
     
     return (
-        <button className={className}>
+        <button className={className} onClick={onClick}>
             {children}
         </button>
     )
