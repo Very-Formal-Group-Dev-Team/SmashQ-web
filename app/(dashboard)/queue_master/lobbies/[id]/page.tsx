@@ -1,4 +1,9 @@
+"use client"
+
+import AddPlayerModal from "@/app/components/ui/AddPlayerModal";
 import MatchCard from "@/app/components/ui/MatchCard";
+import Modal from "@/app/components/ui/Modal";
+import { useState } from "react";
 
 const matches = [
     {
@@ -93,6 +98,7 @@ const matches = [
 
 
 export default function LobbyInfoPage() {
+    const [playerModalOpen, setPlayerModalOpen] = useState(false)
 
     return (
         <div className="flex flex-col gap-8">
@@ -102,7 +108,12 @@ export default function LobbyInfoPage() {
             <div className="flex flex-col gap-3">
                 <div className="flex justify-between">
                     <h2 className="text-secondary text-3xl font-display">PLAYERS</h2>
-                    <button className="bg-secondary px-5 py-2 rounded-sm border cursor-pointer">Add Player</button>
+                    <button
+                        onClick={() => setPlayerModalOpen(true)}
+                        className="bg-secondary px-5 py-2 rounded-sm border cursor-pointer transform duration-100 hover:rounded-xl"
+                    >
+                        Add Player
+                    </button>
                 </div>
                 <div className="bg-secondary w-full h-64 rounded-md border">
 
@@ -113,9 +124,9 @@ export default function LobbyInfoPage() {
             <div className="flex flex-col gap-3">
                 <div className="flex justify-between">
                     <h2 className="text-secondary text-3xl font-display">MATCHES</h2>
-                    <button className="bg-secondary px-5 py-2 rounded-sm border cursor-pointer">Add Court</button>
+                    <button className="bg-secondary px-5 py-2 rounded-sm border cursor-pointer transform duration-100 hover:rounded-xl">Add Court</button>
                 </div>
-                <ul className="grid grid-cols-[repeat(auto-fit,minmax(325px,1fr))] gap-6 sm:gap-12">
+                <ul className="grid grid-cols-[repeat(auto-fit,minmax(350px,1fr))] gap-6 sm:gap-12">
                     {matches.map((match) => (
                         <li key={match.id} className="flex justify-center">
                             <MatchCard 
@@ -126,8 +137,9 @@ export default function LobbyInfoPage() {
                         </li>
                     ))}
                 </ul>
-                    
             </div>
+
+            <AddPlayerModal open={playerModalOpen} onClose={() => setPlayerModalOpen(false)} />
         </div>
     )
 }
