@@ -20,7 +20,7 @@ export default function AuthForm({ mode }: {mode: Mode}) {
     
     const handleLogin = (e: React.FormEvent) => {
         e.preventDefault()
-        router.push("/queue_master")
+        router.push("/queue_master/lobbies")
     }
 
     return (
