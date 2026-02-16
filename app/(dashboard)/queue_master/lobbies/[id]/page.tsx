@@ -1,6 +1,7 @@
 "use client"
 
 import AddPlayerModal from "@/app/components/ui/AddPlayerModal";
+import CourtDetailsModal from "@/app/components/ui/CourtDetailsModal";
 import MatchCard from "@/app/components/ui/MatchCard";
 import Modal from "@/app/components/ui/Modal";
 import { useState } from "react";
@@ -99,6 +100,8 @@ const matches = [
 
 export default function LobbyInfoPage() {
     const [playerModalOpen, setPlayerModalOpen] = useState(false)
+    const [selectedCourt, setSelectedCourt] = useState(null)
+    const [courtModalOpen, setCourtModalOpen] = useState(false)
 
     return (
         <div className="flex flex-col gap-8">
@@ -133,13 +136,21 @@ export default function LobbyInfoPage() {
                                 id={match.id}
                                 team1={match.team1}
                                 team2={match.team2}
+                                onClick={() => setCourtModalOpen(true)}
                             />
                         </li>
                     ))}
                 </ul>
             </div>
 
-            <AddPlayerModal open={playerModalOpen} onClose={() => setPlayerModalOpen(false)} />
+            <AddPlayerModal 
+                open={playerModalOpen} 
+                onClose={() => setPlayerModalOpen(false)}
+            />
+            <CourtDetailsModal 
+                open={courtModalOpen} 
+                onClose={() => setCourtModalOpen(false)} 
+            />
         </div>
     )
 }
