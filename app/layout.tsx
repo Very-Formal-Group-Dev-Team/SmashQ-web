@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { Jaro, Inter } from "next/font/google";
 import "./globals.css";
-
+import { AuthProvider } from "./context/AuthContext"
 
 const inter = Inter({
   subsets: ['latin'],
@@ -25,10 +25,10 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className={`${inter.variable} ${jaro.variable}`}>
-      <body
-        className="font-sans"
-      >
-        {children}
+      <body className="font-sans">
+        <AuthProvider>
+          {children}
+        </AuthProvider> 
       </body>
     </html>
   );

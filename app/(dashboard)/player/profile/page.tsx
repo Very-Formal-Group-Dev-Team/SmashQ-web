@@ -3,6 +3,6 @@
 export default function ProfilePage() {
 
     return (
-        <h1>PROFILE PAGE (FOR QUEUE MASTER)</h1>
+        <h1>PROFILE PAGE (FOR PLAYER)</h1>
     )
 }

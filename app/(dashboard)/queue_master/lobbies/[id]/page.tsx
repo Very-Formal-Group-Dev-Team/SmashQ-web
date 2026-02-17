@@ -1,6 +1,7 @@
 "use client"
 
 import AddPlayerModal from "@/app/components/ui/AddPlayerModal";
+import Button from "@/app/components/ui/Button";
 import CourtDetailsModal from "@/app/components/ui/CourtDetailsModal";
 import MatchCard from "@/app/components/ui/MatchCard";
 import Modal from "@/app/components/ui/Modal";
@@ -111,12 +112,7 @@ export default function LobbyInfoPage() {
             <div className="flex flex-col gap-3">
                 <div className="flex justify-between">
                     <h2 className="text-secondary text-3xl font-display">PLAYERS</h2>
-                    <button
-                        onClick={() => setPlayerModalOpen(true)}
-                        className="bg-secondary px-5 py-2 rounded-sm border cursor-pointer transform duration-100 hover:rounded-xl"
-                    >
-                        Add Player
-                    </button>
+                    <Button onClick={() => setPlayerModalOpen(true)}>Add Player</Button>
                 </div>
                 <div className="bg-secondary w-full h-80 rounded-md border-2 border-accent shadow-md">
 
@@ -127,7 +123,7 @@ export default function LobbyInfoPage() {
             <div className="flex flex-col gap-3">
                 <div className="flex justify-between">
                     <h2 className="text-secondary text-3xl font-display">MATCHES</h2>
-                    <button className="bg-secondary px-5 py-2 rounded-sm border cursor-pointer transform duration-100 hover:rounded-xl">Add Court</button>
+                    <Button onClick={() => alert("TO BE IMPLEMENTED")}>Add Court</Button>
                 </div>
                 <ul className="grid grid-cols-[repeat(auto-fit,minmax(350px,1fr))] gap-6 sm:gap-12">
                     {matches.map((match) => (

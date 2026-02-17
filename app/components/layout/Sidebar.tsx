@@ -4,20 +4,45 @@ import Link from "next/link"
 import { usePathname } from "next/navigation"
 import { FiUser, FiPlusCircle, FiServer, FiLogOut } from "react-icons/fi"
 import { IoClose } from "react-icons/io5";
+import { useAuth } from "@/app/context/AuthContext"
 
 interface SidebarProps {
-  isOpen: boolean
-  close: () => void
+    isOpen: boolean
+    close: () => void
+}
+
+interface MenuItem {
+    label: string
+    href: string
+    icon: React.ReactNode
+}
+
+type Role = "Player" | "Queue Master" | "Admin"
+
+const menuItems: Record<Role, MenuItem[]> = {
+    "Player": [
+        { label: "Profile", href: "/player/profile", icon: <FiUser /> },
+        { label: "Join Lobby", href: "/player/join_lobby", icon: <FiPlusCircle />}
+    ],
+    "Queue Master": [
+        { label: "Profile", href: "/queue_master/profile", icon: <FiUser /> },
+        { label: "Lobbies", href: "/queue_master/lobbies", icon: <FiServer /> },
+        { label: "Join Lobby", href: "/queue_master/join_lobby", icon: <FiPlusCircle />}
+    ],
+    "Admin": [
+        { label: "Profile", href: "/queue_master/profile", icon: <FiUser /> },
+        { label: "Lobbies", href: "/queue_master/lobbies", icon: <FiServer /> },
+        { label: "Join Lobby", href: "/queue_master/join_lobby", icon: <FiPlusCircle />}
+    ],
 }
 
 export default function Sidebar({ isOpen, close }: SidebarProps) {
     const pathname = usePathname()
+    // const { user } = useAuth()
+    
+    // if (!user) return null
 
-    const navItems = [
-        { name: "Profile", icon: <FiUser />, href: "/queue_master/profile"},
-        { name: "Lobbies", icon: <FiServer />, href: "/queue_master/lobbies"},
-        { name: "Join Lobby", icon: <FiPlusCircle />, href: "/queue_master/join_lobby"},
-    ]
+    const navItems = menuItems["Admin"]
 
     return (
         <>
@@ -51,15 +76,15 @@ export default function Sidebar({ isOpen, close }: SidebarProps) {
                                     onClick={close} 
                                     className={`flex items-center gap-3 px-4 py-2 transform duration-150 hover:bg-white hover:rounded-lg ${isActive ? "bg-white rounded-lg" : ""}`}
                                 >
-                                    {item.icon} {item.name}
+                                    {item.icon} {item.label}
                                 </Link>
                             )
                     })}
                     </div>
                     <div className="mt-auto">
-                        <Link href="/login" onClick={close} className="flex items-center gap-3 px-4 py-2 transform duration-150 hover:bg-white hover:rounded-lg">
+                        <button onClick={close} className="flex items-center gap-3 px-4 py-2 transform duration-150 hover:bg-white hover:rounded-lg">
                             <FiLogOut /> Logout
-                        </Link>
+                        </button>
                     </div>
                 </nav>
             </aside>

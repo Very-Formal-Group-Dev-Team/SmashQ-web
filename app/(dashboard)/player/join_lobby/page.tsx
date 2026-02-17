@@ -3,9 +3,8 @@
 import JoinTile from "@/app/components/ui/JoinTile";
 import { BsQrCodeScan } from "react-icons/bs";
 import { FaLink } from "react-icons/fa6";
-import Input from "@/app/components/ui/Input";
+import AuthFormInput from "@/app/components/ui/Input";
 import { useState } from "react";
-import Button from "@/app/components/ui/Button";
 
 export default function JoinLobbiesPage() {
     const [joinUrl, setJoinUrl] = useState("")
@@ -18,13 +17,13 @@ export default function JoinLobbiesPage() {
                         <p className="font-bold text-2xl flex items-center gap-2">Join via Link</p>
                         <FaLink className="text-3xl"/>
                     </div>
-                    <Input 
+                    <AuthFormInput 
                         type="url"
                         placeholder="Link"
                         value={joinUrl}
                         onChange={(e) => setJoinUrl(e.target.value)}
                     />
-                    <Button onClick={() => alert("TO BE IMPLEMENTED")}>Confirm</Button>
+                    <button className="bg-secondary px-5 py-2 font-semibold rounded-sm border-2 border-accent cursor-pointer transform duration-100 hover:rounded-xl">Confirm</button>
                 </div>
             </JoinTile>
             <JoinTile>

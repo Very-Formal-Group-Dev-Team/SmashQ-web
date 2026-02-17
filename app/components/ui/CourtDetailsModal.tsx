@@ -1,6 +1,8 @@
 import Modal from "./Modal"
 import PlayerSlot from "./PlayerSlot"
 import DraggablePlayerCard from "./DraggablePlayerCard"
+import Button from "./Button"
+import ModalTitle from "./ModalTitle"
 
 interface modalProps {
     open: boolean
@@ -11,7 +13,7 @@ export default function CourtDetailsModal({ open, onClose }: modalProps) {
 
     return (
         <Modal open={open} onClose={onClose}>
-            <h2 className="text-center text-3xl font-bold mb-8">Court #</h2>
+            <ModalTitle>Court #</ModalTitle>
             <div className="flex flex-col lg:flex-row gap-6 w-full lg:w-4/5 lg:gap-12 items-center">
                 <div className="w-9/10 px-3 flex flex-col gap-1">
                     <PlayerSlot></PlayerSlot>
@@ -29,15 +31,8 @@ export default function CourtDetailsModal({ open, onClose }: modalProps) {
                 
             </div>
             <div className="flex gap-4 mt-8">
-                <button className="bg-secondary font-semibold w-32 py-1.5 rounded-sm border cursor-pointer hover:rounded-xl">
-                    Auto
-                </button>
-                <button
-                    onClick={onClose}
-                    className="bg-secondary font-semibold w-32 py-1.5 rounded-sm border cursor-pointer hover:rounded-xl"
-                >
-                    Confirm
-                </button>
+                <Button onClick={() => alert("UNDER CONSTRUCTION PA NI")}>Auto</Button>
+                <Button onClick={onClose}>Confirm</Button>
             </div>
             
         </Modal>

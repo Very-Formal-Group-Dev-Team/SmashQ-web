@@ -1,6 +1,6 @@
 "use client"
 
-import AuthFormInput from "./ui/AuthFormInput"
+import Input from "./ui/Input"
 import AuthFormButton from "./ui/AuthFormButton"
 import SmashQTitle from "./ui/SmashQTitle"
 import Dropdown from "./ui/Dropdown"
@@ -103,13 +103,13 @@ export default function AuthForm({ mode }: { mode: Mode }) {
             <div className="flex flex-col gap-3 w-full">
             {mode === "login" ? (
                 <>
-                <AuthFormInput
+                <Input
                     type="text"
                     placeholder="Email"
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
                 />
-                <AuthFormInput
+                <Input
                     type="password"
                     placeholder="Password"
                     value={password}
@@ -118,33 +118,33 @@ export default function AuthForm({ mode }: { mode: Mode }) {
                 </>
             ) : (
                 <>
-                <AuthFormInput
+                <Input
                     type="email"
                     placeholder="Email"
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
                 />
                 <div className="flex gap-2">
-                    <AuthFormInput
+                    <Input
                         type="text"
                         placeholder="First Name"
                         value={firstName}
                         onChange={(e) => setFirstName(e.target.value)}
                     />
-                    <AuthFormInput
+                    <Input
                         type="text"
                         placeholder="Last Name"
                         value={lastName}
                         onChange={(e) => setLastName(e.target.value)}
                     />
                 </div>
-                <AuthFormInput
+                <Input
                     type="password"
                     placeholder="Password"
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
                 />
-                <AuthFormInput
+                <Input
                     type="password"
                     placeholder="Confirm Password"
                     value={passwordConfirm}

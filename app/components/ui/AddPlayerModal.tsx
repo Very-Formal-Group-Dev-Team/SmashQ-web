@@ -1,6 +1,8 @@
-import AuthFormInput from "./AuthFormInput";
+import Button from "./Button";
+import Input from "./Input";
 import Modal from "./Modal";
 import { useState } from "react";
+import ModalTitle from "./ModalTitle";
 
 interface modalProps {
     open: boolean
@@ -12,8 +14,8 @@ export default function AddPlayerModal({ open, onClose}: modalProps) {
 
     return (
         <Modal open={open} onClose={onClose}>
-            <h2 className="text-center text-3xl font-bold mb-8">Add Players</h2>
-            <div className="flex flex-col gap-8">
+            <ModalTitle>Add Players</ModalTitle>
+            <div className="flex flex-col gap-8 items-center">
                 <div className="flex flex-col lg:flex-row items-center gap-6 lg:gap-16">
                     <div className="flex flex-col gap-2">
                         <div className="bg-white border-1 w-full aspect-square" />
@@ -21,7 +23,7 @@ export default function AddPlayerModal({ open, onClose}: modalProps) {
                     </div>
                     <div className="flex flex-col gap-1 w-full">
                         <h3>Manual Join</h3>
-                        <AuthFormInput 
+                        <Input 
                             type="text"
                             placeholder="Name"
                             value={playerName}
@@ -29,7 +31,7 @@ export default function AddPlayerModal({ open, onClose}: modalProps) {
                         />
                     </div>
                 </div>
-                <button onClick={onClose} className="bg-white px-5 py-3 rounded-sm border cursor-pointer transform hover:rounded-xl">Done</button>
+                <Button onClick={onClose}>Done</Button>
             </div>
             
         </Modal>

@@ -6,7 +6,7 @@ interface placeholderProps {
     onChange: React.ChangeEventHandler<HTMLInputElement>
 }
 
-export default function AuthFormInput({ type, placeholder, value, onChange } : placeholderProps) {
+export default function Input({ type, placeholder, value, onChange } : placeholderProps) {
     
     return (
         <input
