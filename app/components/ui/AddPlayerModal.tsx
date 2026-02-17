@@ -12,7 +12,6 @@ export default function AddPlayerModal({ open, onClose}: modalProps) {
 
     return (
         <Modal open={open} onClose={onClose}>
-           
             <h2 className="text-center text-3xl font-bold mb-8">Add Players</h2>
             <div className="flex flex-col gap-8">
                 <div className="flex flex-col lg:flex-row items-center gap-6 lg:gap-16">

@@ -118,7 +118,7 @@ export default function LobbyInfoPage() {
                         Add Player
                     </button>
                 </div>
-                <div className="bg-secondary w-full h-64 rounded-md border">
+                <div className="bg-secondary w-full h-80 rounded-md border-2 border-accent shadow-md">
 
                 </div>
             </div>

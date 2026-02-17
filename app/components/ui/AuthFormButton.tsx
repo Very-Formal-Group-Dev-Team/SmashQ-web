@@ -1,13 +1,13 @@
 import GoogleIcon from "./GoogleIcon";
 
 interface buttonProps {
-    type: string
     variant: "login" | "register" | "guest" | "googleLogin" | "googleRegister"
     onClick: React.MouseEventHandler
     children?: React.ReactNode
+    disabled?: boolean
 }
 
-export default function AuthFormButton({ type, variant, onClick, children }: buttonProps) {
+export default function AuthFormButton({ variant, onClick, children }: buttonProps) {
     let className = "";
 
     if (variant === "login" || variant === "register" || variant === "guest") {

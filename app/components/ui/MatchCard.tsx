@@ -17,7 +17,7 @@ export default function MatchCard({ id, team1, team2, onClick }: matchCardProps)
     return (
         <button 
             onClick={onClick}
-            className="bg-secondary h-56 p-8 rounded-md border flex flex-col gap-10 cursor-pointer transform duration-150 hover:-translate-y-1.5 hover:shadow-xl"
+            className="text-accent bg-secondary h-56 p-8 rounded-md border-2 border-accent flex flex-col gap-10 cursor-pointer transform duration-150 hover:-translate-y-1.5 hover:shadow-xl"
         >
             <h3 className="text-xl font-extrabold">Court {id}</h3>
             <div className="flex justify-between text-sm md:text-md">

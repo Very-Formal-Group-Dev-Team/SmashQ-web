@@ -30,7 +30,7 @@ export default function Sidebar({ isOpen, close }: SidebarProps) {
 
             <aside
                 className={`
-                    fixed top-0 left-0 min-h-lvh w-64 bg-tertiary border-r shadow-md
+                    fixed top-0 left-0 min-h-lvh w-64 bg-tertiary border-r-2 border-accent shadow-lg
                     transform transition-transform duration-300
                     ${isOpen ? "translate-x-0" : "-translate-x-full"}
                     lg:static lg:translate-x-0 lg:shadow-lg
