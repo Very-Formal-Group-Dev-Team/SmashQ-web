@@ -4,6 +4,8 @@ import { useState } from "react"
 import Header from "../components/layout/Header"
 import Sidebar from "../components/layout/Sidebar"
 import { useAuth } from "@/app/context/AuthContext"
+import { useRouter } from "next/navigation"
+import { useEffect } from "react"
 
 interface DashboardLayoutProps {
     children: React.ReactNode
@@ -11,10 +13,24 @@ interface DashboardLayoutProps {
 
 export default function DashboardLayout({ children }: DashboardLayoutProps) {
   const [isOpen, setIsOpen] = useState(false)
-//   const { user, loading } = useAuth()
+  const { user, loading } = useAuth()
+  const router = useRouter()
 
-//   if (loading) return <p>Loading...</p>
-//   if (!user) return <p>Unauthorized</p>
+  useEffect(() => {
+    if (!loading && !user) {
+      router.replace("/login")
+    }
+  }, [loading, user, router])
+
+  if (loading) {
+    return (
+      <div className="min-h-screen flex justify-center items-center bg-primary">
+        <p className="text-secondary text-xl">Loading...</p>
+      </div>
+    )
+  }
+
+  if (!user) return null
 
   return (
         <div className="min-h-screen flex flex-col bg-primary">

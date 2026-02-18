@@ -71,8 +71,9 @@ export default function AuthForm({ mode }: { mode: Mode }) {
             })
             const data = await response.json()
             if (response.ok) {
-                localStorage.setItem("accessToken", data.accessToken)
-                localStorage.setItem("refreshToken", data.refreshToken)
+                // Tokens are nested in data.data
+                localStorage.setItem("accessToken", data.data.accessToken)
+                localStorage.setItem("refreshToken", data.data.refreshToken)
                 alert("Logged in successfully!")
                 if (data.data.user.role === "Player") {
                     router.push("/player")

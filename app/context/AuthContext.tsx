@@ -5,8 +5,9 @@ import { createContext, useContext, useEffect, useState } from "react"
 type Role = "Player" | "Queue Master"
 
 type User = {
-  id: string
-  username: string
+  id: number
+  first_name: string
+  last_name: string
   email: string
   role: Role
 }
@@ -47,10 +48,12 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         const data = await res.json()
         console.log(data)
 
-        // Handle BOTH possible backend shapes:
-        // 1) { user: {...} }
-        // 2) { id, username, ... }
-        const resolvedUser = data.user ?? data
+        // Backend returns { success: true, data: { user: {...} } }
+        const resolvedUser = data.data?.user
+
+        if (!resolvedUser) {
+          throw new Error("No user data in response")
+        }
 
         setUser(resolvedUser)
       } catch (error) {

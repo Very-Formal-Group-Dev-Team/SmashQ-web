@@ -1,57 +1,53 @@
 "use client"
 
 import LobbyCard from "@/app/components/ui/LobbyCard"
-import DashboardLayout from "../../layout"
 import CreateLobbyModal from "@/app/components/ui/CreateLobbyModal"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { useRouter } from "next/navigation"
-
-interface lobbyProps {
-    id: number
-    players: number
-}
-
-const lobbies: lobbyProps[] = [
-    {
-        id: 1,
-        players: 6,
-    },
-    {
-        id: 2,
-        players: 8,
-    },
-    {
-        id: 3,
-        players: 4,
-    },
-    {
-        id: 4,
-        players: 5,
-    },
-    {
-        id: 5,
-        players: 10,
-    },
-    {
-        id: 6,
-        players: 7,
-    },
-    {
-        id: 7,
-        players: 8,
-    },
-]
+import { getMyLobbies, type LobbyData } from "@/app/lib/api"
 
 export default function QueueMasterDashboardPage() {
     const [createLobbyModalOpen, setCreateLobbyModalOpen] = useState(false)
+    const [lobbies, setLobbies] = useState<LobbyData[]>([])
+    const [loading, setLoading] = useState(true)
+    const [error, setError] = useState("")
     const router = useRouter()
+
+    async function fetchLobbies() {
+        setLoading(true)
+        setError("")
+        try {
+            const data = await getMyLobbies()
+            setLobbies(data.data)
+        } catch (err: any) {
+            setError(err.message || "Failed to load lobbies")
+        } finally {
+            setLoading(false)
+        }
+    }
+
+    useEffect(() => {
+        fetchLobbies()
+    }, [])
+
+    function handleLobbyCreated() {
+        setCreateLobbyModalOpen(false)
+        fetchLobbies()
+    }
 
     return (
         <div className="">
+            {loading && <p className="text-secondary text-center">Loading lobbies...</p>}
+            {error && <p className="text-red-500 text-center">{error}</p>}
             <ol className="grid grid-cols-[repeat(auto-fit,minmax(250px,1fr))] gap-12">
                 {lobbies.map(lobby => (
-                    <li key={lobby.id} className="flex justify-center">
-                        <LobbyCard id={lobby.id} players={lobby.players} onClick={() => router.push(`/queue_master/lobbies/${lobby.id}`)}/>
+                    <li key={lobby.lobby_id} className="flex justify-center">
+                        <LobbyCard 
+                            id={lobby.lobby_id} 
+                            name={lobby.lobby_name}
+                            players={lobby.number_of_players} 
+                            onClick={() => router.push(`/queue_master/lobbies/${lobby.lobby_id}`)}
+                        />
                     </li>
                 ))}
                 <li className="flex justify-center">
@@ -64,6 +60,7 @@ export default function QueueMasterDashboardPage() {
             <CreateLobbyModal
                 open={createLobbyModalOpen} 
                 onClose={() => setCreateLobbyModalOpen(false)}
+                onCreated={handleLobbyCreated}
             />
         </div>
     )
