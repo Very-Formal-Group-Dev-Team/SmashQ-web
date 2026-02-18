@@ -39,7 +39,7 @@ export default function QueueMasterDashboardPage() {
         <div className="">
             {loading && <p className="text-secondary text-center">Loading lobbies...</p>}
             {error && <p className="text-red-500 text-center">{error}</p>}
-            <ol className="flex gap-12"> 
+            <ol className="flex flex-wrap gap-16 justify-center lg:justify-start"> 
                 {lobbies.map(lobby => (
                     <li key={lobby.lobby_id} className="flex justify-center">
                         <LobbyCard 
@@ -53,15 +53,15 @@ export default function QueueMasterDashboardPage() {
                 <li className="flex justify-center">
                     <LobbyCard 
                         variant="create" 
-                        onClick={() => setCreateLobbyModalOpen(true)}
+                        // onClick={() => setCreateLobbyModalOpen(true)}
+                        onCreated={handleLobbyCreated}
                     />
                 </li>
             </ol>
-            <CreateLobbyModal
+            {/* <CreateLobbyModal
                 open={createLobbyModalOpen} 
                 onClose={() => setCreateLobbyModalOpen(false)}
-                onCreated={handleLobbyCreated}
-            />
+            /> */}
         </div>
     )
 }
