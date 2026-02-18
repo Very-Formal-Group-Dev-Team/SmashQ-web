@@ -1,13 +1,11 @@
 "use client"
 
 import LobbyCard from "@/app/components/ui/LobbyCard"
-import CreateLobbyModal from "@/app/components/ui/CreateLobbyModal"
 import { useEffect, useState } from "react"
 import { useRouter } from "next/navigation"
 import { getMyLobbies, type LobbyData } from "@/app/lib/api"
 
 export default function QueueMasterDashboardPage() {
-    const [createLobbyModalOpen, setCreateLobbyModalOpen] = useState(false)
     const [lobbies, setLobbies] = useState<LobbyData[]>([])
     const [loading, setLoading] = useState(true)
     const [error, setError] = useState("")
@@ -30,16 +28,24 @@ export default function QueueMasterDashboardPage() {
         fetchLobbies()
     }, [])
 
+    useEffect(() => {
+        if (lobbies) console.log(lobbies)
+    }, [lobbies])
+
     function handleLobbyCreated() {
-        setCreateLobbyModalOpen(false)
         fetchLobbies()
     }
-    // grid grid-cols-[repeat(auto-fit,minmax(250px,1fr))]
     return (
         <div className="">
             {loading && <p className="text-secondary text-center">Loading lobbies...</p>}
             {error && <p className="text-red-500 text-center">{error}</p>}
-            <ol className="flex flex-wrap gap-16 justify-center lg:justify-start"> 
+            <ol className="flex flex-wrap gap-16 justify-center"> 
+                <li className="flex justify-center">
+                    <LobbyCard 
+                        variant="create" 
+                        onCreated={handleLobbyCreated}
+                    />
+                </li>
                 {lobbies.map(lobby => (
                     <li key={lobby.lobby_id} className="flex justify-center">
                         <LobbyCard 
@@ -50,18 +56,7 @@ export default function QueueMasterDashboardPage() {
                         />
                     </li>
                 ))}
-                <li className="flex justify-center">
-                    <LobbyCard 
-                        variant="create" 
-                        // onClick={() => setCreateLobbyModalOpen(true)}
-                        onCreated={handleLobbyCreated}
-                    />
-                </li>
             </ol>
-            {/* <CreateLobbyModal
-                open={createLobbyModalOpen} 
-                onClose={() => setCreateLobbyModalOpen(false)}
-            /> */}
         </div>
     )
 }

@@ -59,7 +59,6 @@ export interface LobbyData {
   lobby_id: number;
   lobby_name: string;
   owner: number;
-  number_of_players: number;
   created_at: string;
 }
 
@@ -80,6 +79,18 @@ export async function createLobby(lobbyName: string, owner: number) {
 /** GET /api/lobby – auth required, returns lobbies owned by user */
 export async function getMyLobbies() {
   const res = await fetch(`${API_BASE}/lobby`, {
+    headers: authHeaders(),
+  });
+  const data = await res.json().catch(() => ({}));
+  if (!res.ok) {
+    throw new Error(data.message || "Failed to fetch lobbies");
+  }
+  return data as { success: boolean; message: string; data: LobbyData[] };
+}
+
+/** GET /api/lobby/:lobby_id - auth required, returns lobby data */
+export async function getLobby(lobbyId: number | string) {
+  const res = await fetch(`${API_BASE}/lobby/${lobbyId}`, {
     headers: authHeaders(),
   });
   const data = await res.json().catch(() => ({}));
