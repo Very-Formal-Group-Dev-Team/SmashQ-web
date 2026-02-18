@@ -26,44 +26,44 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
   useEffect(() => {
     const loadUser = async () => {
-      const token = localStorage.getItem("accessToken")
+        const token = localStorage.getItem("accessToken")
 
-      if (!token) {
-        setUser(null)
-        setLoading(false)
-        return
-      }
-
-      try {
-        const res = await fetch("http://localhost:5000/api/auth/me", {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        })
-
-        if (!res.ok) {
-          throw new Error("Unauthorized")
+        if (!token) {
+            setUser(null)
+            setLoading(false)
+            return
         }
 
-        const data = await res.json()
-        console.log(data)
+        try {
+            const res = await fetch("http://localhost:5000/api/auth/me", {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                },
+            })
 
-        // Backend returns { success: true, data: { user: {...} } }
-        const resolvedUser = data.data?.user
+            if (!res.ok) {
+                throw new Error("Unauthorized")
+            }
 
-        if (!resolvedUser) {
-          throw new Error("No user data in response")
+            const data = await res.json()
+            console.log(data)
+
+            // Backend returns { success: true, data: { user: {...} } }
+            const resolvedUser = data.data?.user
+
+            if (!resolvedUser) {
+                throw new Error("No user data in response")
+            }
+
+            setUser(resolvedUser)
+        } catch (error) {
+            console.error("Auth error:", error)
+            localStorage.removeItem("accessToken")
+            localStorage.removeItem("refreshToken")
+            setUser(null)
+        } finally {
+            setLoading(false)
         }
-
-        setUser(resolvedUser)
-      } catch (error) {
-        console.error("Auth error:", error)
-        localStorage.removeItem("accessToken")
-        localStorage.removeItem("refreshToken")
-        setUser(null)
-      } finally {
-        setLoading(false)
-      }
     }
 
     loadUser()
@@ -77,15 +77,15 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
   return (
     <AuthContext.Provider value={{ user, loading, logout }}>
-      {children}
+        {children}
     </AuthContext.Provider>
   )
 }
 
 export function useAuth() {
-  const context = useContext(AuthContext)
-  if (!context) {
-    throw new Error("useAuth must be used inside AuthProvider")
-  } 
-  return context
+    const context = useContext(AuthContext)
+    if (!context) {
+        throw new Error("useAuth must be used inside AuthProvider")
+    } 
+    return context
 }

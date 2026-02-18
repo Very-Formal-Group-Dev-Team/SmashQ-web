@@ -34,12 +34,12 @@ export default function QueueMasterDashboardPage() {
         setCreateLobbyModalOpen(false)
         fetchLobbies()
     }
-
+    // grid grid-cols-[repeat(auto-fit,minmax(250px,1fr))]
     return (
         <div className="">
             {loading && <p className="text-secondary text-center">Loading lobbies...</p>}
             {error && <p className="text-red-500 text-center">{error}</p>}
-            <ol className="grid grid-cols-[repeat(auto-fit,minmax(250px,1fr))] gap-12">
+            <ol className="flex gap-12"> 
                 {lobbies.map(lobby => (
                     <li key={lobby.lobby_id} className="flex justify-center">
                         <LobbyCard 

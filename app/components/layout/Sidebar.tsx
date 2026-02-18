@@ -1,7 +1,7 @@
 "use client"
 
 import Link from "next/link"
-import { usePathname } from "next/navigation"
+import { usePathname, useRouter } from "next/navigation"
 import { FiUser, FiPlusCircle, FiServer, FiLogOut } from "react-icons/fi"
 import { IoClose } from "react-icons/io5";
 import { useAuth } from "@/app/context/AuthContext"
@@ -38,11 +38,18 @@ const menuItems: Record<Role, MenuItem[]> = {
 
 export default function Sidebar({ isOpen, close }: SidebarProps) {
     const pathname = usePathname()
+    const router = useRouter()
+    const { logout } = useAuth()
     // const { user } = useAuth()
     
     // if (!user) return null
 
     const navItems = menuItems["Admin"]
+
+    function handleLogout() {
+        logout()
+        router.push("/login")
+    }
 
     return (
         <>
@@ -82,7 +89,7 @@ export default function Sidebar({ isOpen, close }: SidebarProps) {
                     })}
                     </div>
                     <div className="mt-auto">
-                        <button onClick={close} className="flex items-center gap-3 px-4 py-2 transform duration-150 hover:bg-white hover:rounded-lg">
+                        <button onClick={handleLogout} className="flex items-center gap-3 px-4 py-2 transform duration-150 hover:bg-white hover:rounded-lg">
                             <FiLogOut /> Logout
                         </button>
                     </div>

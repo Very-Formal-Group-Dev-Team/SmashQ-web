@@ -76,7 +76,7 @@ export default function AuthForm({ mode }: { mode: Mode }) {
                 localStorage.setItem("refreshToken", data.data.refreshToken)
                 alert("Logged in successfully!")
                 if (data.data.user.role === "Player") {
-                    router.push("/player")
+                    router.push("/player/join_lobby")
                 }
                 else if (data.data.user.role === "Queue Master") {
                     router.push("/queue_master/lobbies")
