@@ -4,7 +4,11 @@ import Link from "next/link"
 import { usePathname, useRouter } from "next/navigation"
 import { FiUser, FiPlusCircle, FiServer, FiLogOut } from "react-icons/fi"
 import { IoClose } from "react-icons/io5";
+import { HiQueueList } from "react-icons/hi2";
 import { useAuth } from "@/app/context/AuthContext"
+import { IoAnalyticsSharp } from "react-icons/io5";
+import { BiAddToQueue } from "react-icons/bi";
+import { PiQueueBold } from "react-icons/pi";
 
 interface SidebarProps {
     isOpen: boolean
@@ -22,17 +26,22 @@ type Role = "Player" | "Queue Master" | "Admin"
 const menuItems: Record<Role, MenuItem[]> = {
     "Player": [
         { label: "Profile", href: "/player/profile", icon: <FiUser /> },
-        { label: "Join Lobby", href: "/player/join_lobby", icon: <FiPlusCircle />}
+        { label: "Join Lobby", href: "/player/join_lobby", icon: <FiPlusCircle />},
+        { label: "Queue", href:"/player/queue", icon: <PiQueueBold />},
     ],
     "Queue Master": [
         { label: "Profile", href: "/queue_master/profile", icon: <FiUser /> },
         { label: "Lobbies", href: "/queue_master/lobbies", icon: <FiServer /> },
-        { label: "Join Lobby", href: "/queue_master/join_lobby", icon: <FiPlusCircle />}
+        { label: "Join Lobby", href: "/queue_master/join_lobby", icon: <FiPlusCircle />},
+        { label: "Queue", href:"/queue_master/queue", icon: <PiQueueBold />},
+        { label: "Analytics", href:"/queue_master/analytics", icon: <IoAnalyticsSharp />}, 
     ],
     "Admin": [
         { label: "Profile", href: "/queue_master/profile", icon: <FiUser /> },
         { label: "Lobbies", href: "/queue_master/lobbies", icon: <FiServer /> },
-        { label: "Join Lobby", href: "/queue_master/join_lobby", icon: <FiPlusCircle />}
+        { label: "Join Lobby", href: "/queue_master/join_lobby", icon: <FiPlusCircle />},
+        { label: "Queue", href:"/queue_master/queue", icon: <PiQueueBold />},
+        { label: "Analytics", href:"/queue_master/analytics", icon: <IoAnalyticsSharp />}, 
     ],
 }
 
