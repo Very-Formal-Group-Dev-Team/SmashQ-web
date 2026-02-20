@@ -21,6 +21,11 @@ export default function AuthForm({ mode }: { mode: Mode }) {
     const API_BASE = process.env.NEXT_PUBLIC_API_BASE_URL || "http://localhost:3001/api"
     const API_URL = `${API_BASE}/auth`
 
+    function handleGoogleAuth() {
+        const backendUrl = process.env.NEXT_PUBLIC_API_BASE_URL || "http://localhost:3001/api"
+        window.location.href = `${backendUrl}/auth/google`
+    }
+
     async function handleRegister(e: React.MouseEvent) {
         e.preventDefault()
         
@@ -221,7 +226,7 @@ export default function AuthForm({ mode }: { mode: Mode }) {
                 />
                 <AuthFormButton
                     variant="googleLogin"
-                    onClick={() => alert("Google login not implemented yet")}
+                    onClick={handleGoogleAuth}
                 />
                 </>
             ) : (
@@ -233,7 +238,7 @@ export default function AuthForm({ mode }: { mode: Mode }) {
                 />
                 <AuthFormButton
                     variant="googleRegister"
-                    onClick={() => alert("Google register not implemented yet")}
+                    onClick={handleGoogleAuth}
                 />
                 </>
             )}
