@@ -8,6 +8,7 @@ export default function Header({ open }: { open: () => void }) {
         <header className="bg-secondary text-4xl flex justify-between items-center px-8 md:px-16 py-5 border-b-2 border-accent shadow-md">
             <SmashQTitle />
             <button
+                type="button"
                 onClick={open}
                 className="cursor-pointer lg:hidden"
                 aria-label="Open Menu"

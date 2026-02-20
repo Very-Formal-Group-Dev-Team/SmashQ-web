@@ -16,6 +16,7 @@ export default function MatchCard({ id, team1, team2, onClick }: matchCardProps)
     
     return (
         <button 
+            type="button"
             onClick={onClick}
             className="text-accent bg-secondary h-56 p-8 rounded-md border-2 border-accent flex flex-col gap-10 cursor-pointer transform duration-150 hover:-translate-y-1.5 hover:shadow-xl"
         >

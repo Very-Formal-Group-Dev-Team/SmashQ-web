@@ -1,6 +1,6 @@
 "use client"
 
-import { createContext, useContext, useEffect, useState } from "react"
+import { createContext, useContext, useEffect, useState, useCallback } from "react"
 
 type Role = "Player" | "Queue Master"
 
@@ -24,50 +24,64 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [user, setUser] = useState<User | null>(null)
   const [loading, setLoading] = useState(true)
 
-  useEffect(() => {
-    const loadUser = async () => {
-        const token = localStorage.getItem("accessToken")
+  const API_BASE = process.env.NEXT_PUBLIC_API_BASE_URL || "http://localhost:3001/api"
 
-        if (!token) {
-            setUser(null)
-            setLoading(false)
-            return
-        }
-
-        try {
-            const res = await fetch("http://localhost:5000/api/auth/me", {
-                headers: {
-                    Authorization: `Bearer ${token}`,
-                },
-            })
-
-            if (!res.ok) {
-                throw new Error("Unauthorized")
-            }
-
-            const data = await res.json()
-            console.log(data)
-
-            // Backend returns { success: true, data: { user: {...} } }
-            const resolvedUser = data.data?.user
-
-            if (!resolvedUser) {
-                throw new Error("No user data in response")
-            }
-
-            setUser(resolvedUser)
-        } catch (error) {
-            console.error("Auth error:", error)
-            localStorage.removeItem("accessToken")
-            localStorage.removeItem("refreshToken")
-            setUser(null)
-        } finally {
-            setLoading(false)
-        }
+  const loadUser = useCallback(async () => {
+    setLoading(true)
+    const token = typeof window !== "undefined" ? localStorage.getItem("accessToken") : null
+    if (!token) {
+      setUser(null)
+      setLoading(false)
+      return
     }
 
+    try {
+      const res = await fetch(`${API_BASE}/auth/me`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
+
+      if (!res.ok) {
+        throw new Error("Unauthorized")
+      }
+
+      const data = await res.json()
+      console.debug("AuthProvider: /auth/me response:", data)
+
+      const resolvedUser = data.data?.user
+
+      if (!resolvedUser) {
+        throw new Error("No user data in response")
+      }
+
+      setUser(resolvedUser)
+    } catch (error) {
+      console.error("Auth error:", error)
+      localStorage.removeItem("accessToken")
+      localStorage.removeItem("refreshToken")
+      setUser(null)
+    } finally {
+      setLoading(false)
+    }
+  }, [API_BASE])
+
+  useEffect(() => {
+    // initial load
     loadUser()
-  }, [])
+
+    // listen to storage events so login in one tab updates others
+    function onStorage(e: StorageEvent) {
+      if (!e.key) return
+      if (e.key === "accessToken" || e.key === "authChange" || e.key === "logout") {
+        console.debug("AuthProvider: storage event detected, reloading user for key:", e.key)
+        loadUser()
+      }
+    }
+
+    window.addEventListener("storage", onStorage)
+    return () => window.removeEventListener("storage", onStorage)
+  }, [loadUser])
 
   const logout = () => {
     localStorage.removeItem("accessToken")

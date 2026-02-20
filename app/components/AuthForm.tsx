@@ -18,9 +18,10 @@ export default function AuthForm({ mode }: { mode: Mode }) {
     const [role, setRole] = useState("player")
     const [loading, setLoading] = useState(false)
     const router = useRouter()
-    const API_URL = "http://localhost:5000/api/auth"
+    const API_BASE = process.env.NEXT_PUBLIC_API_BASE_URL || "http://localhost:3001/api"
+    const API_URL = `${API_BASE}/auth`
 
-    async function handleRegister(e: React.FormEvent) {
+    async function handleRegister(e: React.MouseEvent) {
         e.preventDefault()
         
         if (!firstName || !lastName || !email || !password || !passwordConfirm) {
@@ -45,7 +46,10 @@ export default function AuthForm({ mode }: { mode: Mode }) {
                 alert("Registration successful! Check your email for verification link.")
                 router.push("/login")
             } else {
+                // Ensure loading is reset before showing error to avoid accidental resubmits
+                setLoading(false)
                 alert(data.message || "Registration failed")
+                return
             }
         } catch (err) {
             console.error(err)
@@ -54,7 +58,7 @@ export default function AuthForm({ mode }: { mode: Mode }) {
         setLoading(false)
     }
 
-    async function handleLogin(e: React.FormEvent) {
+    async function handleLogin(e: React.MouseEvent) {
         e.preventDefault()
 
         if (!email || !password) {
@@ -74,15 +78,52 @@ export default function AuthForm({ mode }: { mode: Mode }) {
                 // Tokens are nested in data.data
                 localStorage.setItem("accessToken", data.data.accessToken)
                 localStorage.setItem("refreshToken", data.data.refreshToken)
+                console.debug("Login successful - API response:", data)
                 alert("Logged in successfully!")
-                if (data.data.user.role === "Player") {
-                    router.push("/player/join_lobby")
+
+                // Attempt role-based redirect with debug logs
+                const role = data.data.user.role
+                console.debug("Attempting redirect for role:", role)
+
+                const currentPath = typeof window !== "undefined" ? window.location.pathname : ""
+                let target = "/dashboard"
+                if (role === "Player" || role === "player") {
+                    target = "/player/join_lobby"
+                } else if (role === "Queue Master" || role === "queue master" || role === "Queue master") {
+                    target = "/queue_master/lobbies"
                 }
-                else if (data.data.user.role === "Queue Master") {
-                    router.push("/queue_master/lobbies")
+
+                console.debug("About to call router.push with:", target)
+                try {
+                    // router.push may be sync or return a Promise depending on Next version
+                    const res = router.push(target)
+                    console.debug("router.push returned:", res)
+                } catch (pushErr) {
+                    console.error("router.push threw:", pushErr)
                 }
+                console.debug("After router.push call; verifying location in 400ms")
+
+                // Fallback: if router.push didn't navigate, force a location change
+                setTimeout(() => {
+                    if (typeof window === "undefined") return
+                    if (window.location.pathname === currentPath) {
+                        console.debug("router.push did not navigate — falling back to window.location.href ->", target)
+                        window.location.href = target
+                    } else {
+                        console.debug("Navigation observed — current path:", window.location.pathname)
+                    }
+                }, 400)
+                // notify other listeners (AuthProvider) that auth changed
+                try {
+                    localStorage.setItem("authChange", String(Date.now()))
+                } catch (e) {
+                    /* ignore */
+                }
+                return
             } else {
+                setLoading(false)
                 alert(data.message || "Login failed")
+                return
             }
         } catch (err) {
             console.error(err)
@@ -115,6 +156,8 @@ export default function AuthForm({ mode }: { mode: Mode }) {
                     placeholder="Password"
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
+                    showToggle={true}
+                    ariaLabel="Password"
                 />
                 </>
             ) : (
@@ -144,12 +187,16 @@ export default function AuthForm({ mode }: { mode: Mode }) {
                     placeholder="Password"
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
+                    showToggle={true}
+                    ariaLabel="Password"
                 />
                 <Input
                     type="password"
                     placeholder="Confirm Password"
                     value={passwordConfirm}
                     onChange={(e) => setPasswordConfirm(e.target.value)}
+                    showToggle={true}
+                    ariaLabel="Confirm Password"
                 />
                 <Dropdown
                     placeholder="Select Role"

@@ -15,6 +15,7 @@ export default function Modal({ open, onClose, children}: modalProps) {
             `}
         >
             <button 
+                type="button"
                 onClick={onClose} 
                 className="absolute top-5 left-5 text-3xl p-0.5 cursor-pointer hover:bg-white hover:rounded-xl"
             >

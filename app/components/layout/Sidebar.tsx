@@ -68,7 +68,7 @@ export default function Sidebar({ isOpen, close }: SidebarProps) {
                     lg:static lg:translate-x-0 lg:shadow-lg
                 `}
             >
-                <button onClick={close} className="text-3xl p-6 cursor-pointer lg:hidden" aria-label="Close Menu">
+                <button type="button" onClick={close} className="text-3xl p-6 cursor-pointer lg:hidden" aria-label="Close Menu">
                     <IoClose />
                 </button>
 
@@ -89,7 +89,7 @@ export default function Sidebar({ isOpen, close }: SidebarProps) {
                     })}
                     </div>
                     <div className="mt-auto">
-                        <button onClick={handleLogout} className="flex items-center gap-3 px-4 py-2 transform duration-150 hover:bg-white hover:rounded-lg">
+                        <button type="button" onClick={handleLogout} className="flex items-center gap-3 px-4 py-2 transform duration-150 hover:bg-white hover:rounded-lg">
                             <FiLogOut /> Logout
                         </button>
                     </div>

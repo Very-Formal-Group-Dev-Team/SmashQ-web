@@ -70,6 +70,7 @@ export default function JoinLobbiesPage() {
                     {error && <p className="text-red-500 text-sm">{error}</p>}
                     {success && <p className="text-green-600 text-sm">{success}</p>}
                     <button 
+                        type="button"
                         onClick={handleJoin}
                         disabled={loading}
                         className="bg-secondary px-5 py-2 font-semibold rounded-sm border-2 border-accent cursor-pointer transform duration-100 hover:rounded-xl disabled:opacity-50"

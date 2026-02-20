@@ -5,9 +5,10 @@ interface buttonProps {
     onClick: React.MouseEventHandler
     children?: React.ReactNode
     disabled?: boolean
+    type?: "button" | "submit" | "reset"
 }
 
-export default function AuthFormButton({ variant, onClick, children }: buttonProps) {
+export default function AuthFormButton({ variant, onClick, children, disabled = false, type = "button" }: buttonProps) {
     let className = "";
 
     if (variant === "login" || variant === "register" || variant === "guest") {
@@ -23,7 +24,7 @@ export default function AuthFormButton({ variant, onClick, children }: buttonPro
                 <><GoogleIcon/> Sign up with Google</>
     
     return (
-        <button className={className} onClick={onClick}>
+        <button type={type} className={className + (disabled ? " opacity-50 pointer-events-none" : "")} onClick={onClick} disabled={disabled}>
             {children}
         </button>
     )

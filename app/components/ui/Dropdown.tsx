@@ -9,7 +9,7 @@ interface dropdownProps {
   options: SelectOption[]
   placeholder?: string
   value: string
-  onChange: React.ChangeEventHandler<HTMLInputElement>
+  onChange: React.ChangeEventHandler<HTMLSelectElement>
 }
 
 export default function Dropdown({ value, onChange, placeholder, options }: dropdownProps) {
