@@ -60,6 +60,8 @@ export interface LobbyData {
   lobby_name: string;
   owner: number;
   created_at: string;
+  // optional field returned by some endpoints: number of players in lobby
+  number_of_players?: number;
 }
 
 /** POST /api/lobby – auth required, creates a new lobby */
