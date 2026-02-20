@@ -38,7 +38,7 @@ export default function LobbyCard({ id, name, players, variant, onClick, onCreat
                     const payload = JSON.parse(atob(raw.split(".")[1]))
                     ownerId = payload.userId ?? payload.id ?? null
                 } catch {
-                    // ignore parse errors
+                    // I say we ball!!!! fuck them errors bro
                 }
             }
         }
