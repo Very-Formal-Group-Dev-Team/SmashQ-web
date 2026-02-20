@@ -67,10 +67,8 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   }, [API_BASE])
 
   useEffect(() => {
-    // initial load
     loadUser()
 
-    // listen to storage events so login in one tab updates others
     function onStorage(e: StorageEvent) {
       if (!e.key) return
       if (e.key === "accessToken" || e.key === "authChange" || e.key === "logout") {

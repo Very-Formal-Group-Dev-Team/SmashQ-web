@@ -75,13 +75,11 @@ export default function AuthForm({ mode }: { mode: Mode }) {
             })
             const data = await response.json()
             if (response.ok) {
-                // Tokens are nested in data.data
                 localStorage.setItem("accessToken", data.data.accessToken)
                 localStorage.setItem("refreshToken", data.data.refreshToken)
                 console.debug("Login successful - API response:", data)
                 alert("Logged in successfully!")
 
-                // Attempt role-based redirect with debug logs
                 const role = data.data.user.role
                 console.debug("Attempting redirect for role:", role)
 
@@ -95,7 +93,6 @@ export default function AuthForm({ mode }: { mode: Mode }) {
 
                 console.debug("About to call router.push with:", target)
                 try {
-                    // router.push may be sync or return a Promise depending on Next version
                     const res = router.push(target)
                     console.debug("router.push returned:", res)
                 } catch (pushErr) {
@@ -103,7 +100,6 @@ export default function AuthForm({ mode }: { mode: Mode }) {
                 }
                 console.debug("After router.push call; verifying location in 400ms")
 
-                // Fallback: if router.push didn't navigate, force a location change
                 setTimeout(() => {
                     if (typeof window === "undefined") return
                     if (window.location.pathname === currentPath) {
@@ -113,11 +109,9 @@ export default function AuthForm({ mode }: { mode: Mode }) {
                         console.debug("Navigation observed — current path:", window.location.pathname)
                     }
                 }, 400)
-                // notify other listeners (AuthProvider) that auth changed
                 try {
                     localStorage.setItem("authChange", String(Date.now()))
                 } catch (e) {
-                    /* ignore */
                 }
                 return
             } else {
