@@ -28,7 +28,6 @@ export default function CourtDetailsModal({ open, onClose }: modalProps) {
                     <DraggablePlayerCard></DraggablePlayerCard>
                     <DraggablePlayerCard></DraggablePlayerCard>
                 </div>
-                
             </div>
             <div className="flex gap-4 mt-8">
                 <Button onClick={() => alert("UNDER CONSTRUCTION PA NI")}>Auto</Button>

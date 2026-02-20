@@ -7,6 +7,7 @@ import MatchCard from "@/app/components/ui/MatchCard";
 import { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
 import { getLobbyUsers, type LobbyUser } from "@/app/lib/api";
+import { getLobby } from "@/app/lib/api";
 
 const matches = [
     {
@@ -99,10 +100,19 @@ const matches = [
     },
 ]
 
+interface LobbyData {
+    lobby_id: number;
+    lobby_name: string;
+    owner: number;
+    number_of_players: number;
+    created_at: string;
+}
 
 export default function LobbyInfoPage() {
     const params = useParams()
     const lobbyId = params.id as string
+
+    const [lobby, setLobby] = useState<LobbyData>()
 
     const [playerModalOpen, setPlayerModalOpen] = useState(false)
     const [selectedCourt, setSelectedCourt] = useState(null)
@@ -111,6 +121,30 @@ export default function LobbyInfoPage() {
     const [players, setPlayers] = useState<LobbyUser[]>([])
     const [playersLoading, setPlayersLoading] = useState(true)
     const [playersError, setPlayersError] = useState("")
+
+    const [loading, setLoading] = useState(false)
+    const [error, setError] = useState("")
+
+    async function fetchLobby() {
+        setLoading(true)
+        // setError("")
+        try {
+            const data = await getLobby(lobbyId)
+            setLobby(data.data)
+        } catch (err: any) {
+            setError(err.message || "Failed to load lobbies")
+        } finally {
+            setLoading(false)
+        }
+    }
+
+    useEffect(() => {
+        fetchLobby()
+    }, [])
+
+    useEffect(() => {
+        if (lobby) console.log(lobby.lobby_name)
+    }, [lobby])
 
     async function fetchPlayers() {
         setPlayersLoading(true)
@@ -137,7 +171,7 @@ export default function LobbyInfoPage() {
 
     return (
         <div className="flex flex-col gap-8">
-            <h1 className="text-secondary text-6xl text-center font-display">LOBBY {lobbyId}</h1>
+            <h1 className="text-secondary text-6xl text-center font-display">{lobby ? lobby.lobby_name : `Lobby {lobbyId}`}</h1>
             
             {/* Players Table */}
             <div className="flex flex-col gap-3">

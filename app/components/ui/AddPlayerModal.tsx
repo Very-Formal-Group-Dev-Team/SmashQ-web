@@ -42,7 +42,7 @@ export default function AddPlayerModal({ open, onClose, lobbyId }: modalProps) {
             <div className="flex flex-col gap-8 items-center">
                 <div className="flex flex-col lg:flex-row items-center gap-6 lg:gap-16">
                     <div className="flex flex-col gap-2">
-                        <div className="bg-white border-1 w-full aspect-square" />
+                        <div className="bg-white border w-full aspect-square" />
                         <p 
                             className="text-sm sm:text-md cursor-pointer hover:underline break-all"
                             onClick={handleCopyLink}
