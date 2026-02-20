@@ -99,7 +99,7 @@ export async function getLobby(lobbyId: number | string) {
   if (!res.ok) {
     throw new Error(data.message || "Failed to fetch lobbies");
   }
-  return data as { success: boolean; message: string; data: LobbyData[] };
+  return data as { success: boolean; message: string; data: LobbyData };
 }
 
 // ── Lobby Users Endpoint ────────────────────────────────────

@@ -6,8 +6,7 @@ import CourtDetailsModal from "@/app/components/ui/CourtDetailsModal";
 import MatchCard from "@/app/components/ui/MatchCard";
 import { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
-import { getLobbyUsers, type LobbyUser } from "@/app/lib/api";
-import { getLobby } from "@/app/lib/api";
+import { getLobbyUsers, getLobby, type LobbyUser, type LobbyData } from "@/app/lib/api";
 
 const matches = [
     {
@@ -100,13 +99,6 @@ const matches = [
     },
 ]
 
-interface LobbyData {
-    lobby_id: number;
-    lobby_name: string;
-    owner: number;
-    number_of_players: number;
-    created_at: string;
-}
 
 export default function LobbyInfoPage() {
     const params = useParams()
