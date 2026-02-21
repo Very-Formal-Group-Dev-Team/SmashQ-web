@@ -48,12 +48,10 @@ const menuItems: Record<Role, MenuItem[]> = {
 export default function Sidebar({ isOpen, close }: SidebarProps) {
     const pathname = usePathname()
     const router = useRouter()
-    const { logout } = useAuth()
-    // const { user } = useAuth()
-    
-    // if (!user) return null
+    const { logout, user } = useAuth()
 
-    const navItems = menuItems["Admin"]
+    const role: Role = (user?.role as Role) ?? "Player"
+    const navItems = menuItems[role] ?? menuItems["Player"]
 
     function handleLogout() {
         logout()
