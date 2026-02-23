@@ -69,7 +69,7 @@ export default function LobbyCard({ id, name, players, variant, onClick, onCreat
         variant == "create" ? 
             <div onClick={onClick} className="text-accent bg-secondary border-2 border-accent rounded-lg shadow-md h-75 aspect-square flex flex-col justify-center items-center">
                 <ModalTitle>Create Lobby</ModalTitle>
-                <div className="flex flex-col items-center gap-4">
+                <div className="flex flex-col items-center gap-4 px-8">
                     <Input 
                         type="text"
                         placeholder="Lobby Name"
