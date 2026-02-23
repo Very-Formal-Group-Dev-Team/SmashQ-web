@@ -4,7 +4,7 @@ import { FaPlus } from "react-icons/fa"
 import ModalTitle from "./ModalTitle"
 import Input from "./Input"
 import { useState } from "react"
-import { createLobby } from "@/app/lib/api";
+import { createLobby, getLobby } from "@/app/lib/api";
 import { useAuth } from "@/app/context/AuthContext"
 import Button from "./Button"
 
@@ -38,7 +38,7 @@ export default function LobbyCard({ id, name, players, variant, onClick, onCreat
                     const payload = JSON.parse(atob(raw.split(".")[1]))
                     ownerId = payload.userId ?? payload.id ?? null
                 } catch {
-                    // I say we ball!!!! fuck them errors bro
+                    // ignore parse errors
                 }
             }
         }
@@ -61,15 +61,30 @@ export default function LobbyCard({ id, name, players, variant, onClick, onCreat
         }
     }
 
+    const fetchPlayers = async () => {
+
+    }
+
     return (
-        variant == "create" ?
-            <button type="button" onClick={onClick} className="text-accent bg-secondary border-2 border-accent rounded-lg shadow-md h-60 aspect-square flex flex-col justify-center items-center cursor-pointer transform duration-150 hover:-translate-y-1.5 hover:shadow-xl">
-                <h2 className="text-6xl"><FaPlus/></h2>
-            </button>
-        :
-            <button type="button" onClick={onClick} className="text-accent bg-secondary border-2 border-accent rounded-lg shadow-md h-60 aspect-square flex flex-col justify-center items-center cursor-pointer transform duration-150 hover:-translate-y-1.5 hover:shadow-xl">
+        variant == "create" ? 
+            <div onClick={onClick} className="text-accent bg-secondary border-2 border-accent rounded-lg shadow-md h-75 aspect-square flex flex-col justify-center items-center">
+                <ModalTitle>Create Lobby</ModalTitle>
+                <div className="flex flex-col items-center gap-4">
+                    <Input 
+                        type="text"
+                        placeholder="Lobby Name"
+                        value={lobbyName}
+                        onChange={(e) => { setLobbyName(e.target.value); setError(""); }}
+                    />
+                    {error && <p className="text-red-500 text-sm">{error}</p>}
+                    <Button onClick={handleCreate}>
+                        {authLoading ? "Loading..." : loading ? "Creating..." : "Confirm"}
+                    </Button>
+                </div>
+            </div> : 
+            <button onClick={onClick} className="text-accent bg-secondary border-2 border-accent rounded-lg shadow-md h-75 aspect-square flex flex-col justify-center items-center cursor-pointer transform duration-150 hover:-translate-y-1.5 hover:shadow-xl">
                 <h2 className="text-3xl font-black">{name || `Lobby ${id}`}</h2>
                 <p className="">{players} players</p>
-            </button>
+            </button>   
     )
 }

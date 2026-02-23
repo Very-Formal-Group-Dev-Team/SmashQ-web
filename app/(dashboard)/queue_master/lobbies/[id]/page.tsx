@@ -188,7 +188,7 @@ export default function LobbyInfoPage() {
                             </thead>
                             <tbody>
                                 {players.map((player, idx) => (
-                                    <tr key={player.id} className="border-b border-gray-200">
+                                    <tr key={player.id} className="border-b border-accent">
                                         <td className="py-2 px-3">{idx + 1}</td>
                                         <td className="py-2 px-3">{player.name}</td>
                                         <td className="py-2 px-3 text-sm text-gray-500">
