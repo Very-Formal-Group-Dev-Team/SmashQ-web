@@ -189,7 +189,7 @@ export default function LobbyInfoPage() {
         <div className="flex flex-col gap-8">
             <h1 className="text-secondary text-6xl text-center font-display">{lobby ? lobby.lobby_name : `Lobby {lobbyId}`}</h1>
             
-            <div className="flex flex-col xl:flex-row gap-12">
+            <div className="flex flex-col xl:flex-row gap-10 lg:gap-16">
                 {/* Players Table */}
                 <div className="flex flex-col gap-3 w-full">
                     
@@ -234,24 +234,27 @@ export default function LobbyInfoPage() {
                             <div className="flex flex-col items-center gap-2">
                                 <div className="bg-white border w-[250px] aspect-square" />
                                 <p 
-                                    className="text-sm sm:text-md cursor-pointer hover:underline break-all"
+                                    className="text-md sm:text-md cursor-pointer hover:underline break-all"
                                     onClick={handleCopyLink}
                                     title="Click to copy"
                                 >
                                     {linkLoading ? "Loading..." : joinLink || "No link available"}
                                 </p>
                             </div>
-                            <div className="flex flex-col gap-1 w-full">
-                                <h3>Manual Join</h3>
-                                <Input 
-                                    type="text"
-                                    placeholder="Name"
-                                    value={playerName}
-                                    onChange={(e) => setPlayerName(e.target.value)}
-                                />
+                            <div className="flex flex-col items-center gap-5 w-full">
+                                <div className="flex flex-col gap-1">
+                                    <h3 className="text-lg font-semibold self-start">Manual Join</h3>
+                                    <Input 
+                                        type="text"
+                                        placeholder="Name"
+                                        value={playerName}
+                                        onChange={(e) => setPlayerName(e.target.value)}
+                                    />
+                                </div>
+                                <Button onClick={() => alert("hello")}>Confirm</Button>
                             </div>
+
                         </div>
-                        <Button onClick={() => alert("hello")}>Confirm</Button>
                     </div>
                 </div>
             </div>
