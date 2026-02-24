@@ -6,6 +6,7 @@ import SmashQTitle from "./ui/SmashQTitle"
 import Dropdown from "./ui/Dropdown"
 import { useState } from "react"
 import { useRouter } from "next/navigation"
+import { useAuth } from "@/app/context/AuthContext"
 
 type Mode = "register" | "login"
 
@@ -18,6 +19,7 @@ export default function AuthForm({ mode }: { mode: Mode }) {
     const [role, setRole] = useState("player")
     const [loading, setLoading] = useState(false)
     const router = useRouter()
+    const { refreshUser } = useAuth()
     const API_BASE = process.env.NEXT_PUBLIC_API_BASE_URL || "http://localhost:3001/api"
     const API_URL = `${API_BASE}/auth`
 
@@ -83,47 +85,17 @@ export default function AuthForm({ mode }: { mode: Mode }) {
                 // Tokens are nested in data.data
                 localStorage.setItem("accessToken", data.data.accessToken)
                 localStorage.setItem("refreshToken", data.data.refreshToken)
-                console.debug("Login successful - API response:", data)
-                alert("Logged in successfully!")
 
-                // Attempt role-based redirect with debug logs
+                // Refresh AuthContext so DashboardLayout sees the user before we navigate
+                await refreshUser()
+
                 const role = data.data.user.role
-                console.debug("Attempting redirect for role:", role)
-
-                const currentPath = typeof window !== "undefined" ? window.location.pathname : ""
-                let target = "/dashboard"
-                if (role === "Player" || role === "player") {
-                    target = "/player/join_lobby"
-                } else if (role === "Queue Master" || role === "queue master" || role === "Queue master") {
+                let target = "/player/join_lobby"
+                if (role === "Queue Master" || role === "queue master" || role === "Queue master") {
                     target = "/queue_master/lobbies"
                 }
 
-                console.debug("About to call router.push with:", target)
-                try {
-                    // router.push may be sync or return a Promise depending on Next version
-                    const res = router.push(target)
-                    console.debug("router.push returned:", res)
-                } catch (pushErr) {
-                    console.error("router.push threw:", pushErr)
-                }
-                console.debug("After router.push call; verifying location in 400ms")
-
-                // Fallback: if router.push didn't navigate, force a location change
-                setTimeout(() => {
-                    if (typeof window === "undefined") return
-                    if (window.location.pathname === currentPath) {
-                        console.debug("router.push did not navigate — falling back to window.location.href ->", target)
-                        window.location.href = target
-                    } else {
-                        console.debug("Navigation observed — current path:", window.location.pathname)
-                    }
-                }, 400)
-                // notify other listeners (AuthProvider) that auth changed
-                try {
-                    localStorage.setItem("authChange", String(Date.now()))
-                } catch (e) {
-                    /* ignore */
-                }
+                router.push(target)
                 return
             } else {
                 setLoading(false)
