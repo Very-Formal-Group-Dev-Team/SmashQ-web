@@ -17,7 +17,7 @@ export default function Dropdown({ value, onChange, placeholder, options }: drop
     <select 
       value={value}
       onChange={onChange}
-      className="w-full text-md text-gray-500 bg-gray-50 border border-gray-600 rounded-sm py-4 px-4"
+      className="w-full text-md text-gray-500 bg-gray-50 border border-gray-600 rounded-md py-3.5 px-4"
     >
       {placeholder && (
         <option value="" disabled>

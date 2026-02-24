@@ -7,6 +7,7 @@ import Dropdown from "./ui/Dropdown"
 import { useState } from "react"
 import { useRouter } from "next/navigation"
 import { useAuth } from "@/app/context/AuthContext"
+import Label from "./ui/Label"
 
 type Mode = "register" | "login"
 
@@ -17,6 +18,9 @@ export default function AuthForm({ mode }: { mode: Mode }) {
     const [password, setPassword] = useState("")
     const [passwordConfirm, setPasswordConfirm] = useState("")
     const [role, setRole] = useState("player")
+    const [dob, setDob] = useState("")
+    const [gender, setGender] = useState("")
+    const [contactNumber, setContactNumber] = useState("")
     const [loading, setLoading] = useState(false)
     const router = useRouter()
     const { refreshUser } = useAuth()
@@ -111,121 +115,186 @@ export default function AuthForm({ mode }: { mode: Mode }) {
 
     return (
         <div className="bg-primary h-lvh">
-        <form className="pl-8 pr-8 pt-10 pb-10 bg-secondary absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 flex flex-col justify-center items-center gap-6 rounded-xl w-[370px]">
-            <div className="flex flex-col text-center gap-1">
-            <SmashQTitle />
-            <p className="text-gray-700">
-                {mode === "login" ? "Log in to your Account" : "Create an Account"}
-            </p>
-            </div>
-
-            <div className="flex flex-col gap-3 w-full">
-            {mode === "login" ? (
-                <>
-                <Input
-                    type="text"
-                    placeholder="Email"
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                />
-                <Input
-                    type="password"
-                    placeholder="Password"
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)}
-                    showToggle={true}
-                    ariaLabel="Password"
-                />
-                </>
-            ) : (
-                <>
-                <Input
-                    type="email"
-                    placeholder="Email"
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                />
-                <div className="flex gap-2">
-                    <Input
-                        type="text"
-                        placeholder="First Name"
-                        value={firstName}
-                        onChange={(e) => setFirstName(e.target.value)}
-                    />
-                    <Input
-                        type="text"
-                        placeholder="Last Name"
-                        value={lastName}
-                        onChange={(e) => setLastName(e.target.value)}
-                    />
+            <form className={`pl-8 pr-8 pt-10 pb-10 bg-secondary absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 flex flex-col justify-center items-center gap-6 rounded-xl ${mode === "login" ? "w-[370px]" : "w-[370px] md:w-[750px] md:pl-12 md:pr-12"}`}>
+                <div className="flex flex-col text-center gap-1">
+                    <SmashQTitle />
+                    <p className="text-gray-700">
+                        {mode === "login" ? "Log in to your Account" : "Create an Account"}
+                    </p>
                 </div>
-                <Input
-                    type="password"
-                    placeholder="Password"
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)}
-                    showToggle={true}
-                    ariaLabel="Password"
-                />
-                <Input
-                    type="password"
-                    placeholder="Confirm Password"
-                    value={passwordConfirm}
-                    onChange={(e) => setPasswordConfirm(e.target.value)}
-                    showToggle={true}
-                    ariaLabel="Confirm Password"
-                />
-                <Dropdown
-                    placeholder="Select Role"
-                    options={[
-                        { value: "Player", label: "Player" },
-                        { value: "Queue Master", label: "Queue Master" },
-                    ]}
-                    value={role}
-                    onChange={(e) => setRole(e.target.value)}
-                />
-                </>
-            )}
-            </div>
 
-            <div className="flex flex-col gap-3 w-full">
-            {mode === "login" ? (
-                <>
-                <AuthFormButton variant="login" onClick={handleLogin} disabled={loading} />
-                <AuthFormButton
-                    variant="guest"
-                    onClick={() => alert("Guest login not implemented yet")}
-                />
-                <AuthFormButton
-                    variant="googleLogin"
-                    onClick={handleGoogleAuth}
-                />
-                </>
-            ) : (
-                <>
-                <AuthFormButton
-                    variant="register"
-                    onClick={handleRegister}
-                    disabled={loading}
-                />
-                <AuthFormButton
-                    variant="googleRegister"
-                    onClick={handleGoogleAuth}
-                />
-                </>
-            )}
-            </div>
+                <div className="flex flex-col gap-3 w-full">
+                {mode === "login" ? (
+                    <div className="flex flex-col gap-2">
+                        {/* Email */}
+                        <Input
+                            type="email"
+                            placeholder="Email"
+                            value={email}
+                            onChange={(e) => setEmail(e.target.value)}
+                        />
+                        {/* Password */}
+                        <Input
+                            type="password"
+                            placeholder="Password"
+                            value={password}
+                            onChange={(e) => setPassword(e.target.value)}
+                            showToggle={true}
+                            ariaLabel="Password"
+                        />
+                    </div>
+                ) : (
+                    <div className="flex flex-col md:flex-row gap-2 md:gap-8">
+                        <div className="w-full flex flex-col gap-2">
+                            {/* Email */}
+                            <div>
+                                <Label>Email</Label>
+                                <Input
+                                    type="email"
+                                    placeholder="Email"
+                                    value={email}
+                                    onChange={(e) => setEmail(e.target.value)}
+                                />
+                            </div>
 
-            <p>
-            {mode === "login" ? "Don't have an account? " : "Already have an account? "}
-            <a
-                href={mode === "login" ? "/register" : "/login"}
-                className="text-[#368F66] font-semibold hover:cursor-pointer"
-            >
-                {mode === "login" ? "Sign up" : "Sign in"}
-            </a>
-            </p>
-        </form>
+                            {/* Name */}
+                            <div>
+                                <Label>Name</Label>
+                                <div className="flex gap-2">
+                                    {/* First Name */}
+                                    <Input
+                                        type="text"
+                                        placeholder="First Name"
+                                        value={firstName}
+                                        onChange={(e) => setFirstName(e.target.value)}
+                                    />
+                                    {/* Last Name */}
+                                    <Input
+                                        type="text"
+                                        placeholder="Last Name"
+                                        value={lastName}
+                                        onChange={(e) => setLastName(e.target.value)}
+                                    />
+                                </div>
+                            </div>
+
+                            {/* Password */}
+                            <div>
+                                <Label>Password</Label>
+                                <Input
+                                    type="password"
+                                    placeholder="Password"
+                                    value={password}
+                                    onChange={(e) => setPassword(e.target.value)}
+                                    showToggle={true}
+                                    ariaLabel="Password"
+                                />
+                            </div>
+
+                            {/* Confirm Password */}
+                            <div>
+                                <Label>Confirm Password</Label>
+                                <Input
+                                    type="password"
+                                    placeholder="Confirm Password"
+                                    value={passwordConfirm}
+                                    onChange={(e) => setPasswordConfirm(e.target.value)}
+                                    showToggle={true}
+                                    ariaLabel="Confirm Password"
+                                />
+                            </div>
+                        </div>
+
+                        <div className="w-full flex flex-col gap-2">
+                            {/* Date of Birth */}
+                            <div>
+                                <Label>Date of Birth</Label>
+                                <Input
+                                    type="date"
+                                    placeholder="Date of Birth"
+                                    value={dob}
+                                    onChange={(e) => setDob(e.target.value)}
+                                />
+                            </div>
+                            {/* Sex */}
+                            <div>
+                                <Label>Sex</Label>
+                                <Dropdown
+                                    placeholder="Select Sex"
+                                    options={[
+                                        { value: "Male", label: "Male" },
+                                        { value: "Female", label: "Female" },
+                                    ]}
+                                    value={gender}
+                                    onChange={(e) => setGender(e.target.value)}
+                                />
+                            </div>
+                            {/* Contact Number */}
+                            <div>
+                                <Label>Contact Number</Label>
+                                <Input
+                                    type="text"
+                                    placeholder="Contact Number"
+                                    value={contactNumber}
+                                    onChange={(e) => setContactNumber(e.target.value)}
+                                />
+                            </div>
+                            {/* Role */}
+                            <div>
+                                <Label>Role</Label>
+                                <Dropdown
+                                    placeholder="Select Role"
+                                    options={[
+                                        { value: "Player", label: "Player" },
+                                        { value: "Queue Master", label: "Queue Master" },
+                                    ]}
+                                    value={role}
+                                    onChange={(e) => setRole(e.target.value)}
+                                />
+                            </div>
+                        </div>
+                    </div>
+                )}
+                </div>
+
+                <div className="flex flex-col gap-3 w-full">
+                    {mode === "login" ? (
+                        <>
+                            <AuthFormButton variant="login" onClick={handleLogin} disabled={loading} />
+                            <AuthFormButton
+                                variant="guest"
+                                onClick={() => alert("Guest login not implemented yet")}
+                            />
+                            <AuthFormButton
+                                variant="googleLogin"
+                                onClick={handleGoogleAuth}
+                            />
+                        </>
+                    ) : (
+                        <>
+                            <AuthFormButton
+                                variant="register"
+                                onClick={handleRegister}
+                                disabled={loading}
+                            />
+                            <AuthFormButton
+                                variant="googleRegister"
+                                onClick={handleGoogleAuth}
+                            />
+                        </>
+                    )}
+                </div>
+
+                <p>
+                    {mode === "login" ? "Don't have an account? " : "Already have an account? "}
+                    <a
+                        href={mode === "login" ? "/register" : "/login"}
+                        className="text-[#368F66] font-semibold hover:cursor-pointer"
+                    >
+                        {mode === "login" ? "Sign up" : "Sign in"}
+                    </a>
+                </p>
+            </form>
         </div>
     )
 }
