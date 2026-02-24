@@ -10,9 +10,7 @@ export default function Modal({ open, onClose, children}: modalProps) {
     if (!open) return null
 
     return (
-        <div
-            className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 md:p-6"
-        >
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 md:p-6">
             <button
                 type="button"
                 onClick={onClose}

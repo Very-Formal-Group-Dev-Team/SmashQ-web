@@ -269,6 +269,7 @@ export default function LobbyInfoPage() {
                     {matches.map((match) => (
                         <li key={match.id} className="flex justify-center">
                             <MatchCard 
+                                variant="lobby"
                                 id={match.id}
                                 team1={match.team1}
                                 team2={match.team2}

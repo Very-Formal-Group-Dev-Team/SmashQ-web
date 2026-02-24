@@ -22,7 +22,7 @@ export default function PlayerSlot({
 }: PlayerSlotProps) {
     return (
         <div
-            className={`bg-white py-2 lg:py-3 flex justify-center items-center border-2 border-dashed rounded-lg min-h-[56px] ${isActiveDropTarget ? "border-primary" : "border-accent"}`}
+            className={`bg-white  flex justify-center items-center border-2 border-dashed rounded-lg min-h-[56px] ${isActiveDropTarget ? "border-primary" : "border-accent"}`}
             onDragOver={onDragOver}
             onDrop={onDrop}
             onDragLeave={onDragLeave}
