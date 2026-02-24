@@ -64,41 +64,7 @@ const matches = [
             "Rico Euma Aban",
         ],
     },
-    {
-        id: 6,
-        team1: [
-            "Joshua Frell Te",
-            "Kyrr Josh Magbussin",
-        ],
-        team2: [
-            "Joshua Benedict Lazaro",
-            "Rico Euma Aban",
-        ],
-    },
-    {
-        id: 7,
-        team1: [
-            "Joshua Frell Te",
-            "Kyrr Josh Magbussin",
-        ],
-        team2: [
-            "Joshua Benedict Lazaro",
-            "Rico Euma Aban",
-        ],
-    },
-    {
-        id: 8,
-        team1: [
-            "Joshua Frell Te",
-            "Kyrr Josh Magbussin",
-        ],
-        team2: [
-            "Joshua Benedict Lazaro",
-            "Rico Euma Aban",
-        ],
-    },
 ]
-
 
 export default function LobbyInfoPage() {
     const params = useParams()

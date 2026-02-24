@@ -23,6 +23,7 @@ export default function CourtDetailsModal({ open, onClose }: modalProps) {
         "Maria L. Santos",
         "Paolo B. Reyes",
         "Ana C. Villanueva",
+        "KYRR MAGPUSAO"
     ])
 
     const [slots, setSlots] = useState<(string | null)[]>([null, null, null, null])
@@ -104,7 +105,7 @@ export default function CourtDetailsModal({ open, onClose }: modalProps) {
         <Modal open={open} onClose={onClose}>
             <ModalTitle>Court #</ModalTitle>
             <div className="flex flex-col lg:flex-row gap-6 w-full lg:w-4/5 lg:gap-12 items-center">
-                <div className="w-9/10 px-3 flex flex-col gap-1">
+                <div className="w-9/10 px-3 flex flex-col gap-2">
                     {slots.slice(0, 2).map((slotPlayer, index) => (
                         <PlayerSlot
                             key={`team-a-${index}`}
@@ -141,7 +142,7 @@ export default function CourtDetailsModal({ open, onClose }: modalProps) {
                     })}
                 </div>
                 <div
-                    className={`bg-white w-9/10 h-64 border-2 rounded-lg flex flex-col gap-2 p-3 overflow-y-auto ${isPoolDropActive ? "border-primary" : "border-accent"}`}
+                    className={`bg-white w-9/10 h-70 border-2 rounded-lg flex flex-col gap-2 p-3 overflow-y-auto ${isPoolDropActive ? "border-primary" : "border-accent"}`}
                     onDragOver={(event) => {
                         event.preventDefault()
                         setIsPoolDropActive(true)
@@ -158,7 +159,7 @@ export default function CourtDetailsModal({ open, onClose }: modalProps) {
                     ))}
                 </div>
             </div>
-            <div className="flex gap-4 mt-8">
+            <div className="flex gap-4 mt-8 mb-8">
                 <Button onClick={() => alert("UNDER CONSTRUCTION PA NI")}>Auto</Button>
                 <Button onClick={onClose}>Confirm</Button>
             </div>
