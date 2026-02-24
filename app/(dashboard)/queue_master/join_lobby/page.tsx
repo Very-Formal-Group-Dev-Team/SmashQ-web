@@ -50,27 +50,29 @@ export default function JoinLobbiesPage() {
     return (
         <div className="text-accent flex flex-col lg:flex-row lg:justify-center items-center gap-16 lg:gap-32 mt-8 lg:mt-42">
             <JoinTile>
-                <div className="flex flex-col items-center gap-4">
-                    <div className="flex gap-2">
-                        <p className="font-bold text-2xl flex items-center gap-2">Join via Link</p>
+                <div className="flex flex-col items-center gap-5 w-[260px]">
+                    <div className="flex items-center gap-2">
+                        <p className="font-display text-4xl flex items-center gap-2">Join via Link</p>
                         <FaLink className="text-3xl"/>
                     </div>
-                    <Input 
-                        type="url"
-                        placeholder="Paste join link or lobby ID"
-                        value={joinUrl}
-                        onChange={(e) => { setJoinUrl(e.target.value); setError(""); setSuccess(""); }}
-                    />
-                    {error && <p className="text-red-500 text-sm">{error}</p>}
-                    {success && <p className="text-green-600 text-sm">{success}</p>}
-                    <Button onClick={handleJoin}>
-                        {loading ? "Joining..." : "Confirm"}
-                    </Button>
+                    <div className="flex flex-col items-center gap-3">
+                        <Input 
+                            type="url"
+                            placeholder="Paste join link or lobby ID"
+                            value={joinUrl}
+                            onChange={(e) => { setJoinUrl(e.target.value); setError(""); setSuccess(""); }}
+                        />
+                        {error && <p className="text-red-500 text-sm">{error}</p>}
+                        {success && <p className="text-green-600 text-sm">{success}</p>}
+                        <Button onClick={handleJoin}>
+                            {loading ? "Joining..." : "Confirm"}
+                        </Button>
+                    </div>
                 </div>
             </JoinTile>
             <JoinTile>
-                <div className="flex flex-col items-center gap-3 cursor-pointer">
-                    <p className="font-bold text-2xl flex items-center gap-3">Join via QR</p>
+                <div className="flex flex-col items-center gap-4 cursor-pointer">
+                    <p className="font-display text-4xl flex items-center gap-3">Join via QR</p>
                     <BsQrCodeScan className="text-9xl"/>
                 </div>
             </JoinTile>
