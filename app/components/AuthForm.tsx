@@ -47,10 +47,30 @@ export default function AuthForm({ mode }: { mode: Mode }) {
 
         setLoading(true)
         try {
+            let age: number | undefined
+            if (dob) {
+                const birth = new Date(dob)
+                const today = new Date()
+                age = today.getFullYear() - birth.getFullYear()
+                const monthDiff = today.getMonth() - birth.getMonth()
+                if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birth.getDate())) {
+                    age--
+                }
+            }
+
             const response = await fetch(`${API_URL}/register`, {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ email, firstName, lastName, password, role }),
+                body: JSON.stringify({
+                    email,
+                    firstName,
+                    lastName,
+                    password,
+                    role,
+                    age: age ?? null,
+                    gender: gender || null,
+                    contact_number: contactNumber || null,
+                }),
             })
             const data = await response.json()
             if (response.ok) {

@@ -1,8 +1,5 @@
-
+import ProfileDisplay from "@/app/components/ProfileDisplay"
 
 export default function ProfilePage() {
-
-    return (
-        <h1>PROFILE PAGE (FOR QUEUE MASTER)</h1>
-    )
+    return <ProfileDisplay />
 }

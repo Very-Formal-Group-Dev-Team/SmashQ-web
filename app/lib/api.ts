@@ -13,10 +13,6 @@ function authHeaders(): HeadersInit {
   };
 }
 
-/**
- * Decode the JWT payload from the stored access token without verifying the signature.
- * Used only to extract `userId` on the client when AuthContext hasn't loaded yet.
- */
 export function getUserIdFromToken(): number | null {
   const token = getToken();
   if (!token) return null;
@@ -26,6 +22,32 @@ export function getUserIdFromToken(): number | null {
   } catch {
     return null;
   }
+}
+
+export interface UserProfile {
+  id: number;
+  email: string;
+  first_name: string;
+  last_name: string;
+  role: string;
+  gender: string | null;
+  age: number | null;
+  contact_number: string | null;
+  nickname: string | null;
+  dominant_hand: string | null;
+  is_verified: boolean;
+  matches_played: number;
+  winrate: number;
+  average_match_duration: number;
+}
+
+export async function getProfile(): Promise<{ success: boolean; data: { user: UserProfile } }> {
+  const res = await fetch(`${API_BASE}/profile`, {
+    headers: authHeaders(),
+  });
+  const data = await res.json().catch(() => ({}));
+  if (!res.ok) throw new Error(data.message || "Failed to get profile");
+  return data;
 }
 
 // ── Join Endpoints ──────────────────────────────────────────

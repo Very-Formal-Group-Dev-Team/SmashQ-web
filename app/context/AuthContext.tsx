@@ -10,6 +10,15 @@ type User = {
   last_name: string
   email: string
   role: Role
+  gender?: string | null
+  age?: number | null
+  contact_number?: string | null
+  nickname?: string | null
+  dominant_hand?: string | null
+  is_verified?: boolean
+  matches_played?: number
+  winrate?: number
+  average_match_duration?: number
 }
 
 type AuthContextType = {
