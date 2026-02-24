@@ -12,6 +12,7 @@ const matchQueue = [
             "Joshua Benedict Lazaro",
             "Rico Euma Aban",
         ],
+        estimated_duration: 1311342
     },
     {
         id: 2,
@@ -23,6 +24,7 @@ const matchQueue = [
             "Joshua Benedict Lazaro",
             "Rico Euma Aban",
         ],
+        estimated_duration: 1536454
     },
     {
         id: 3,
@@ -34,6 +36,7 @@ const matchQueue = [
             "Joshua Benedict Lazaro",
             "Rico Euma Aban",
         ],
+        estimated_duration: 1443257
     },
     {
         id: 4,
@@ -45,6 +48,7 @@ const matchQueue = [
             "Joshua Benedict Lazaro",
             "Rico Euma Aban",
         ],
+        estimated_duration: 1999533
     },
     {
         id: 5,
@@ -56,39 +60,7 @@ const matchQueue = [
             "Joshua Benedict Lazaro",
             "Rico Euma Aban",
         ],
-    },
-    {
-        id: 6,
-        team1: [
-            "Joshua Frell Te",
-            "Kyrr Josh Magbussin",
-        ],
-        team2: [
-            "Joshua Benedict Lazaro",
-            "Rico Euma Aban",
-        ],
-    },
-    {
-        id: 7,
-        team1: [
-            "Joshua Frell Te",
-            "Kyrr Josh Magbussin",
-        ],
-        team2: [
-            "Joshua Benedict Lazaro",
-            "Rico Euma Aban",
-        ],
-    },
-    {
-        id: 8,
-        team1: [
-            "Joshua Frell Te",
-            "Kyrr Josh Magbussin",
-        ],
-        team2: [
-            "Joshua Benedict Lazaro",
-            "Rico Euma Aban",
-        ],
+        estimated_duration: 1714373
     },
 ]
 
@@ -105,6 +77,7 @@ export default function QueuePage() {
                         id={currentMatch.id}
                         team1={currentMatch.team1}
                         team2={currentMatch.team2}
+                        estimated_duration={`${Math.floor(currentMatch.estimated_duration / 1000 / 60)}m ${Math.floor((currentMatch.estimated_duration % 60000) / 1000)}s`}
                     />
                 </li>
             </ol>
@@ -118,6 +91,7 @@ export default function QueuePage() {
                             id={match.id}
                             team1={match.team1}
                             team2={match.team2}
+                            estimated_duration={`${Math.floor(match.estimated_duration / 1000 / 60)}m ${Math.floor((match.estimated_duration % 60000) / 1000)}s`}
                         />
                     </li>
                 ))}

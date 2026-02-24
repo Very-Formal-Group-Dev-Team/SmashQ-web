@@ -161,7 +161,7 @@ export default function LobbyInfoPage() {
                     
                     <h2 className="text-secondary text-3xl font-display self-center">PLAYERS ({players.length})</h2>
                    
-                    <div className="bg-secondary w-full h-full mt-2 rounded-md border-2 border-accent shadow-md p-4">
+                    <div className="bg-secondary w-full h-full mt-2 rounded-md border-3 border-accent shadow-md p-4">
                         {playersLoading && <p className="text-center text-gray-500">Loading players...</p>}
                         {playersError && <p className="text-center text-red-500">{playersError}</p>}
                         {!playersLoading && !playersError && players.length === 0 && (
@@ -195,7 +195,7 @@ export default function LobbyInfoPage() {
                 {/* Add Players Section*/}
                 <div className="flex flex-col gap-3 w-full h-full">
                     <h2 className="text-secondary text-3xl self-center font-display">ADD PLAYERS</h2>
-                    <div className="bg-secondary mt-2 rounded-md border-2 border-accent shadow-md px-4 py-12 flex flex-col gap-8 justify-between items-center w-full">
+                    <div className="bg-secondary mt-2 rounded-md border-3 border-accent shadow-md px-4 py-12 flex flex-col gap-8 justify-between items-center w-full">
                         <div className="flex flex-col lg:flex-row items-center gap-6 lg:gap-16">
                             <div className="flex flex-col items-center gap-2">
                                 <div className="bg-white border w-[250px] aspect-square" />
