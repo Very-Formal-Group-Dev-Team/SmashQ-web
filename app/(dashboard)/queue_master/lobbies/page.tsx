@@ -48,7 +48,7 @@ export default function QueueMasterDashboardPage() {
         <div className="">
             {loading && <p className="text-secondary text-center">Loading lobbies...</p>}
             {error && <p className="text-red-500 text-center">{error}</p>}
-            <ol className="flex flex-wrap gap-16 justify-center"> 
+            <ol className="flex flex-wrap gap-6 sm:gap-16 justify-center"> 
                 <li className="flex justify-center">
                     <LobbyCard 
                         variant="create" 

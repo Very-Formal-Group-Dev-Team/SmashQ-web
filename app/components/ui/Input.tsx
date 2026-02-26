@@ -19,7 +19,7 @@ export default function Input({ type, placeholder, value, onChange, showToggle =
                 placeholder={placeholder || "hello"}
                 value={value}
                 onChange={onChange}
-                className="text-md bg-gray-50 border w-full max-w-80 border-gray-600 rounded-md py-3 px-4 pr-10"
+                className="text-md bg-gray-50 border w-full border-gray-600 rounded-md py-2.5 sm:py-3 px-3 sm:px-4 pr-10"
                 aria-label={ariaLabel || placeholder}
             />
             {isPassword && (

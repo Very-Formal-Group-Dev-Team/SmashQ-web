@@ -226,7 +226,7 @@ export default function LobbyInfoPage() {
     return (
         <div className="flex flex-col gap-8">
             <div className="flex flex-col items-center gap-2">
-                <h1 className="text-secondary text-6xl text-center font-display">{lobby ? lobby.lobby_name : `Lobby ${lobbyId}`}</h1>
+                <h1 className="text-secondary text-4xl sm:text-6xl text-center font-display">{lobby ? lobby.lobby_name : `Lobby ${lobbyId}`}</h1>
                 {isFinished && (
                     <span className="bg-red-500 text-white text-sm font-bold px-4 py-1 rounded-full">FINISHED</span>
                 )}
@@ -349,7 +349,7 @@ export default function LobbyInfoPage() {
                                 value={maxGamesInput}
                                 onChange={(e) => setMaxGamesInput(e.target.value)}
                                 min={1}
-                                className="text-md bg-gray-50 border w-full max-w-80 border-gray-600 rounded-md py-3 px-4"
+                                className="text-md bg-gray-50 border w-full max-w-80 border-gray-600 rounded-md py-2.5 sm:py-3 px-3 sm:px-4"
                             />
                             <p className="text-xs text-gray-400">Leave empty for unlimited</p>
                         </div>

@@ -103,7 +103,7 @@ export default function OnboardingPage() {
 
     return (
         <div className="min-h-screen bg-primary flex flex-col items-center justify-center px-4">
-            <div className="flex flex-col items-center bg-secondary rounded-2xl py-8 px-6 w-[340px] sm:w-[400px] sm:py-10 max-w-lg text-center shadow-lg">
+            <div className="flex flex-col items-center bg-secondary rounded-2xl py-8 px-6 w-full max-w-[340px] sm:max-w-[400px] sm:py-10 text-center shadow-lg">
                 <SmashQTitle />
                 <h1 className="text-2xl font-bold mt-6 mb-1">Complete Your Profile</h1>
                 <p className="text-md font-light text-gray-600 mb-5">Please provide the following information to finish onboarding</p>

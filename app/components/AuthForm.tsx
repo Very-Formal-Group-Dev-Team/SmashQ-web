@@ -148,8 +148,8 @@ export default function AuthForm({ mode }: { mode: Mode }) {
     }
 
     return (
-        <div className="bg-primary h-lvh">
-            <form className={`pl-8 pr-8 pt-10 pb-10 bg-secondary absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 flex flex-col justify-center items-center gap-6 rounded-xl ${mode === "login" ? "w-[370px]" : "w-[370px] md:w-[750px] md:pl-12 md:pr-12"}`}>
+        <div className="bg-primary min-h-lvh flex items-center justify-center px-4 py-6">
+            <form className={`px-5 sm:px-8 pt-8 sm:pt-10 pb-8 sm:pb-10 bg-secondary flex flex-col justify-center items-center gap-4 sm:gap-6 rounded-xl w-full ${mode === "login" ? "max-w-[370px]" : "max-w-[370px] md:max-w-[750px] md:px-12"}`}>
                 <div className="flex flex-col text-center gap-1">
                     <SmashQTitle />
                     <p className="text-gray-700">
