@@ -1,4 +1,11 @@
-const API_BASE = process.env.NEXT_PUBLIC_API_BASE_URL || "http://localhost:5000/api";
+function ensureAbsoluteUrl(url: string): string {
+  if (!/^https?:\/\//i.test(url)) return `https://${url}`;
+  return url;
+}
+
+const API_BASE = ensureAbsoluteUrl(
+  process.env.NEXT_PUBLIC_API_BASE_URL || "http://localhost:5000/api"
+);
 
 function getToken(): string | null {
   if (typeof window === "undefined") return null;
