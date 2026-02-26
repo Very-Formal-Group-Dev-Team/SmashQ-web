@@ -2,10 +2,12 @@
 
 import { Suspense, useEffect } from "react"
 import { useRouter, useSearchParams } from "next/navigation"
+import { useAuth } from "@/app/context/AuthContext"
 
 function CallbackHandler() {
     const router = useRouter()
     const searchParams = useSearchParams()
+    const { refreshUser } = useAuth()
 
     useEffect(() => {
         const accessToken = searchParams.get("accessToken")
@@ -22,53 +24,49 @@ function CallbackHandler() {
             localStorage.setItem("accessToken", accessToken)
             localStorage.setItem("refreshToken", refreshToken)
 
-            try {
-                localStorage.setItem("authChange", String(Date.now()))
-            } catch (e) {
-            }
-
             const isNewUser = searchParams.get("isNewUser") === "true"
 
             if (isNewUser) {
-                router.push("/onboarding")
+                refreshUser().then(() => router.push("/onboarding"))
                 return
             }
 
-            const API_BASE = process.env.NEXT_PUBLIC_API_BASE_URL || "http://localhost:5000/api"
+            refreshUser().then(() => {
+                const API_BASE = process.env.NEXT_PUBLIC_API_BASE_URL || "http://localhost:3001/api"
 
-            fetch(`${API_BASE}/auth/me`, {
-                method: "GET",
-                headers: {
-                    "Authorization": `Bearer ${accessToken}`,
-                    "Content-Type": "application/json"
-                }
-            })
-            .then(res => res.json())
-            .then(data => {
-                if (data.success && data.data.user) {
-                    const role = data.data.user.role
-                    let target = "/player/join_lobby"
-
-                    if (role === "Player" || role === "player") {
-                        target = "/player/join_lobby"
-                    } else if (role === "Queue Master" || role === "queue master" || role === "Queue master") {
-                        target = "/queue_master/lobbies"
+                fetch(`${API_BASE}/auth/me`, {
+                    method: "GET",
+                    headers: {
+                        "Authorization": `Bearer ${accessToken}`,
+                        "Content-Type": "application/json"
                     }
+                })
+                .then(res => res.json())
+                .then(data => {
+                    if (data.success && data.data.user) {
+                        const role = data.data.user.role
+                        let target = "/player/join_lobby"
 
-                    router.push(target)
-                } else {
+                        if (role === "Player" || role === "player") {
+                            target = "/player/join_lobby"
+                        } else if (role === "Queue Master" || role === "queue master" || role === "Queue master") {
+                            target = "/queue_master/lobbies"
+                        }
+
+                        router.push(target)
+                    } else {
+                        router.push("/player/join_lobby")
+                    }
+                })
+                .catch(() => {
                     router.push("/player/join_lobby")
-                }
-            })
-            .catch(err => {
-                console.error("Failed to get user data:", err)
-                router.push("/player/join_lobby")
+                })
             })
         } else {
             alert("Authentication failed. Please try again.")
             router.push("/login")
         }
-    }, [searchParams, router])
+    }, [searchParams, router, refreshUser])
 
     return null
 }

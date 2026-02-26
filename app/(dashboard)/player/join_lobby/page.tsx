@@ -39,7 +39,7 @@ export default function JoinLobbiesPage() {
             const data = await joinLobby(lobbyId)
             setSuccess(data.message || "Joined lobby successfully!")
             setJoinUrl("")
-            setTimeout(() => router.push("/queue_master/lobbies"), 1500)
+            setTimeout(() => router.push("/player/queue"), 1500)
         } catch (err: any) {
             setError(err.message || "Failed to join lobby")
         } finally {

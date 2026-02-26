@@ -5,11 +5,16 @@ import PlayerSlot from "./PlayerSlot"
 import DraggablePlayerCard from "./DraggablePlayerCard"
 import Button from "./Button"
 import ModalTitle from "./ModalTitle"
-import { type DragEvent, useState } from "react"
+import { type DragEvent, useState, useEffect } from "react"
+import { createMatch, type LobbyUser } from "@/app/lib/api"
 
 interface modalProps {
     open: boolean
     onClose: () => void
+    courtId: number
+    courtName: string
+    lobbyId: number
+    lobbyPlayers: LobbyUser[]
 }
 
 type DragSource = {
@@ -17,18 +22,24 @@ type DragSource = {
     index: number
 }
 
-export default function CourtDetailsModal({ open, onClose }: modalProps) {
-    const [availablePlayers, setAvailablePlayers] = useState([
-        "Juan A. Dela Cruz",
-        "Maria L. Santos",
-        "Paolo B. Reyes",
-        "Ana C. Villanueva",
-        "KYRR MAGPUSAO"
-    ])
+type PoolPlayer = {
+    id: number
+    name: string
+}
 
-    const [slots, setSlots] = useState<(string | null)[]>([null, null, null, null])
+export default function CourtDetailsModal({ open, onClose, courtId, courtName, lobbyId, lobbyPlayers }: modalProps) {
+    const [availablePlayers, setAvailablePlayers] = useState<PoolPlayer[]>([])
+    const [slots, setSlots] = useState<(PoolPlayer | null)[]>([null, null, null, null])
     const [activeSlotDropIndex, setActiveSlotDropIndex] = useState<number | null>(null)
     const [isPoolDropActive, setIsPoolDropActive] = useState(false)
+    const [saving, setSaving] = useState(false)
+
+    useEffect(() => {
+        if (open) {
+            setAvailablePlayers(lobbyPlayers.map(p => ({ id: p.id, name: p.name })))
+            setSlots([null, null, null, null])
+        }
+    }, [open, lobbyPlayers])
 
     function setDragSource(event: DragEvent<HTMLDivElement>, source: DragSource) {
         event.dataTransfer.setData("application/json", JSON.stringify(source))
@@ -101,16 +112,34 @@ export default function CourtDetailsModal({ open, onClose }: modalProps) {
         setAvailablePlayers(prev => [...prev, playerToReturn])
     }
 
+    async function handleConfirm() {
+        const team1Ids = slots.slice(0, 2).filter(Boolean).map(p => p!.id)
+        const team2Ids = slots.slice(2, 4).filter(Boolean).map(p => p!.id)
+
+        if (team1Ids.length === 0 && team2Ids.length === 0) {
+            onClose()
+            return
+        }
+
+        setSaving(true)
+        try {
+            await createMatch(lobbyId, courtId, team1Ids, team2Ids)
+            onClose()
+        } catch {
+            setSaving(false)
+        }
+    }
+
     return (
         <Modal open={open} onClose={onClose}>
-            <ModalTitle>Court #</ModalTitle>
+            <ModalTitle>{courtName}</ModalTitle>
             <div className="flex flex-col lg:flex-row gap-6 w-full lg:w-4/5 lg:gap-12 items-center">
                 <div className="w-9/10 px-3 flex flex-col gap-2">
                     {slots.slice(0, 2).map((slotPlayer, index) => (
                         <PlayerSlot
                             key={`team-a-${index}`}
                             label={`Player ${index + 1}`}
-                            playerName={slotPlayer ?? undefined}
+                            playerName={slotPlayer?.name}
                             isActiveDropTarget={activeSlotDropIndex === index}
                             onDragOver={(event) => {
                                 event.preventDefault()
@@ -128,7 +157,7 @@ export default function CourtDetailsModal({ open, onClose }: modalProps) {
                             <PlayerSlot
                                 key={`team-b-${sliceIndex}`}
                                 label={`Player ${slotIndex + 1}`}
-                                playerName={slotPlayer ?? undefined}
+                                playerName={slotPlayer?.name}
                                 isActiveDropTarget={activeSlotDropIndex === slotIndex}
                                 onDragOver={(event) => {
                                     event.preventDefault()
@@ -150,18 +179,22 @@ export default function CourtDetailsModal({ open, onClose }: modalProps) {
                     onDrop={handleDropOnPool}
                     onDragLeave={() => setIsPoolDropActive(false)}
                 >
-                    {availablePlayers.map((playerName, index) => (
+                    {availablePlayers.length === 0 && (
+                        <p className="text-gray-400 text-center mt-4 text-sm">No players available</p>
+                    )}
+                    {availablePlayers.map((player, index) => (
                         <DraggablePlayerCard
-                            key={`${playerName}-${index}`}
-                            playerName={playerName}
+                            key={`${player.id}-${index}`}
+                            playerName={player.name}
                             onDragStart={(event) => setDragSource(event, { source: "pool", index })}
                         />
                     ))}
                 </div>
             </div>
             <div className="flex gap-4 mt-8 mb-8">
-                <Button onClick={() => alert("UNDER CONSTRUCTION PA NI")}>Auto</Button>
-                <Button onClick={onClose}>Confirm</Button>
+                <Button onClick={handleConfirm}>
+                    {saving ? "Saving..." : "Confirm"}
+                </Button>
             </div>
             
         </Modal>
