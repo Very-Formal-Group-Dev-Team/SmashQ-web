@@ -89,16 +89,12 @@ export default function OnboardingPage() {
 
     return (
         <div className="min-h-screen bg-primary flex flex-col items-center justify-center px-4">
-            <div className="bg-secondary rounded-2xl p-10 w-full max-w-lg text-center shadow-lg">
+            <div className="flex flex-col items-center bg-secondary rounded-2xl py-8 px-6 w-[340px] sm:w-[400px] sm:py-10 max-w-lg text-center shadow-lg">
                 <SmashQTitle />
-                <h1 className="text-2xl font-bold mt-6 mb-2">Complete Your Profile</h1>
-                <p className="text-gray-600 mb-8">Please provide the following information to finish onboarding.</p>
+                <h1 className="text-2xl font-bold mt-6 mb-1">Complete Your Profile</h1>
+                <p className="text-md font-light text-gray-600 mb-5">Please provide the following information to finish onboarding</p>
 
-                {error && (
-                    <p className="text-red-500 mb-4 text-sm">{error}</p>
-                )}
-
-                <form className="flex flex-col gap-5 text-left" onSubmit={handleSubmit}>
+                <form className="w-69 sm:w-78 flex flex-col gap-2.5 text-left" onSubmit={handleSubmit}>
                     <div>
                         <Label>Role</Label>
                         <Dropdown
@@ -111,26 +107,28 @@ export default function OnboardingPage() {
                             onChange={e => setRole(e.target.value)}
                         />
                     </div>
-                    <div>
-                        <Label>Age</Label>
-                        <Input
-                            type="number"
-                            placeholder="Age"
-                            value={age}
-                            onChange={e => setAge(e.target.value)}
-                        />
-                    </div>
-                    <div>
-                        <Label>Sex</Label>
-                        <Dropdown
-                            placeholder="Select Sex"
-                            options={[
-                                { value: "Male", label: "Male" },
-                                { value: "Female", label: "Female" },
-                            ]}
-                            value={gender}
-                            onChange={e => setGender(e.target.value)}
-                        />
+                    <div className="flex gap-2">
+                        <div className="w-full">
+                            <Label>Age</Label>
+                            <Input
+                                type="number"
+                                placeholder="Age"
+                                value={age}
+                                onChange={e => setAge(e.target.value)}
+                            />
+                        </div>
+                        <div className="w-full">
+                            <Label>Sex</Label>
+                            <Dropdown
+                                placeholder="Select Sex"
+                                options={[
+                                    { value: "Male", label: "Male" },
+                                    { value: "Female", label: "Female" },
+                                ]}
+                                value={gender}
+                                onChange={e => setGender(e.target.value)}
+                            />
+                        </div>
                     </div>
                     <div>
                         <Label>Contact Number</Label>
@@ -141,10 +139,15 @@ export default function OnboardingPage() {
                             onChange={e => setContactNumber(e.target.value)}
                         />
                     </div>
+
+                    {error && (
+                        <p className="text-center text-red-500 mb-4 text-sm">{error}</p>
+                    )}
+
                     <button
                         type="submit"
                         disabled={loading}
-                        className="w-full py-4 rounded-xl bg-accent text-white font-semibold text-lg hover:brightness-110 transition disabled:opacity-50 cursor-pointer mt-2"
+                        className="w-full py-4 rounded-xl bg-accent text-white font-semibold text-lg hover:brightness-175 transition disabled:opacity-50 cursor-pointer mt-4"
                     >
                         Finish Onboarding
                     </button>
