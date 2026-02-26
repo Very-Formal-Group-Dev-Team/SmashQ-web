@@ -4,10 +4,8 @@ import Link from "next/link"
 import { usePathname, useRouter } from "next/navigation"
 import { FiUser, FiPlusCircle, FiServer, FiLogOut } from "react-icons/fi"
 import { IoClose } from "react-icons/io5";
-import { HiQueueList } from "react-icons/hi2";
 import { useAuth } from "@/app/context/AuthContext"
 import { IoAnalyticsSharp } from "react-icons/io5";
-import { BiAddToQueue } from "react-icons/bi";
 import { PiQueueBold } from "react-icons/pi";
 
 interface SidebarProps {
@@ -55,7 +53,7 @@ export default function Sidebar({ isOpen, close }: SidebarProps) {
 
     function handleLogout() {
         logout()
-        router.push("/login")
+        router.push("/landing_page")
     }
 
     return (
@@ -69,7 +67,7 @@ export default function Sidebar({ isOpen, close }: SidebarProps) {
 
             <aside
                 className={`
-                    fixed top-0 left-0 min-h-lvh w-64 bg-tertiary border-r-2 border-accent shadow-lg
+                    z-10 fixed top-0 left-0 min-h-lvh w-64 bg-tertiary border-r-2 border-accent shadow-lg
                     transform transition-transform duration-300
                     ${isOpen ? "translate-x-0" : "-translate-x-full"}
                     lg:static lg:translate-x-0 lg:shadow-lg
