@@ -128,18 +128,8 @@ export default function MatchCard({
 
     if (variant === "lobby") {
         return (
-<<<<<<< feat/landing-page
-            <div className="text-accent bg-secondary w-full h-48 p-5 rounded-md border-3 border-accent hover:border-accent/80 transition duration-200 hover:shadow-lg hover:shadow-accent/20 flex flex-col justify-between transform hover:-translate-y-1.5">
-                <button
-                    type="button"
-                    onClick={onClick}
-                    disabled={isOngoing}
-                    className="flex flex-col gap-2 cursor-pointer text-left flex-1 min-h-0"
-                >
-=======
-            <div className="text-accent bg-secondary w-full h-48 p-5 rounded-md border-3 border-accent flex flex-col justify-between transform duration-150 hover:-translate-y-1.5 hover:shadow-xl">
+            <div className="text-accent bg-secondary w-full h-48 p-5 rounded-xl border-2 border-accent flex flex-col justify-between transform duration-150 hover:-translate-y-1.5 hover:shadow-xl">
                 <div className="flex flex-col gap-2 flex-1 min-h-0">
->>>>>>> main
                     <div className="flex justify-between items-center w-full">
                         <div className="flex items-center gap-2 min-w-0 flex-1">
                             {editing ? (

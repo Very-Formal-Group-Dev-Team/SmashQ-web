@@ -67,7 +67,7 @@ export default function LobbyCard({ id, name, players, variant, onClick, onCreat
 
     return (
         variant == "create" ? 
-            <div onClick={onClick} className="text-accent bg-secondary border-3 border-accent hover:border-accent/70 transition duration-200 hover:shadow-lg hover:shadow-accent/20 rounded-lg h-75 aspect-square flex flex-col justify-center items-center">
+            <div onClick={onClick} className="text-accent bg-secondary border-3 border-accent hover:border-accent/70 transition duration-100 hover:shadow-lg hover:shadow-accent/20 rounded-2xl h-75 aspect-square flex flex-col justify-center items-center">
                 <ModalTitle>Create Lobby</ModalTitle>
                 <div className="flex flex-col items-center gap-3 px-8">
                     <Input 
@@ -82,7 +82,7 @@ export default function LobbyCard({ id, name, players, variant, onClick, onCreat
                     </Button>
                 </div>
             </div> : 
-            <button onClick={onClick} className="text-accent bg-secondary border-3 border-accent hover:border-accent/80 transition duration-200 hover:shadow-lg hover:shadow-accent/20 rounded-xl h-75 aspect-square flex flex-col justify-center items-center gap-1 cursor-pointer transform hover:-translate-y-1.5">
+            <button onClick={onClick} className="text-accent bg-secondary border-3 transition duration-100 rounded-2xl h-75 aspect-square flex flex-col justify-center items-center gap-1 cursor-pointer transform hover:-translate-y-1">
                 <h2 className="text-4xl font-black">{name || `Lobby ${id}`}</h2>
                 <p className="">{players} players</p>
             </button>   

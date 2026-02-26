@@ -235,11 +235,11 @@ export default function LobbyInfoPage() {
             <div className="flex flex-col xl:flex-row gap-10 lg:gap-16">
                 <div className="flex flex-col gap-3 w-full">
                     <h2 className="text-secondary text-3xl font-display self-center">PLAYERS ({players.length})</h2>
-                    <div className="bg-secondary w-full h-full mt-2 rounded-md border-3 border-accent shadow-md p-4">
+                    <div className="bg-secondary w-full h-full mt-2 rounded-xl border-2 border-accent shadow-md p-12">
                         {playersLoading && <p className="text-center text-gray-500">Loading players...</p>}
                         {playersError && <p className="text-center text-red-500">{playersError}</p>}
                         {!playersLoading && !playersError && players.length === 0 && (
-                            <p className="text-center text-gray-400">No players yet. Share the join link to invite players!</p>
+                            <p className="text-center text-gray-600">No players yet. Share the join link to invite players!</p>
                         )}
                         {!playersLoading && players.length > 0 && (
                             <table className="w-full text-left">
@@ -294,7 +294,7 @@ export default function LobbyInfoPage() {
                 {!isFinished && (
                     <div className="flex flex-col gap-3 w-full h-full">
                         <h2 className="text-secondary text-3xl self-center font-display">ADD PLAYERS</h2>
-                        <div className="bg-secondary mt-2 rounded-md border-3 border-accent shadow-md px-4 py-12 flex flex-col gap-8 justify-between items-center w-full">
+                        <div className="bg-secondary mt-2 rounded-xl border-2 border-accent shadow-md px-4 py-12 flex flex-col gap-8 justify-between items-center w-full">
                             <div className="flex flex-col lg:flex-row items-center gap-6 lg:gap-16">
                                 <div className="flex flex-col items-center gap-2">
                                     {joinLink && !linkLoading ? (
@@ -340,9 +340,9 @@ export default function LobbyInfoPage() {
             {!isFinished && (
                 <div className="flex flex-col gap-3">
                     <h2 className="text-secondary text-3xl font-display">SETTINGS</h2>
-                    <div className="bg-secondary rounded-md border-3 border-accent shadow-md p-4 flex flex-col sm:flex-row items-start sm:items-end gap-4">
-                        <div className="flex flex-col gap-1">
-                            <label className="text-sm font-semibold">Max Games Per Player</label>
+                    <div className="bg-secondary rounded-xl border-2 border-accent shadow-md p-4 flex flex-row items-center gap-4">
+                        <div className="flex flex-col gap-3">
+                            <label className="ml-0.5 text-lg text-accent font-semibold">Max Games Per Player</label>
                             <input
                                 type="number"
                                 placeholder="Unlimited"
@@ -367,7 +367,7 @@ export default function LobbyInfoPage() {
                 </div>
                 {courtsLoading && <p className="text-secondary text-center">Loading courts...</p>}
                 {!courtsLoading && courts.length === 0 && (
-                    <div className="bg-secondary rounded-md border-3 border-accent shadow-md p-12 text-center">
+                    <div className="bg-secondary rounded-xl border-2 border-accent shadow-md p-12 text-center">
                         <p className="text-gray-400 text-lg">You don&apos;t have courts yet</p>
                         <p className="text-gray-400 text-sm mt-1">Click &quot;Add Court&quot; to create one</p>
                     </div>
@@ -412,12 +412,12 @@ export default function LobbyInfoPage() {
             {!isFinished && (
                 <div className="flex flex-col gap-3 mt-4">
                     <h2 className="text-secondary text-3xl font-display">LOBBY ACTIONS</h2>
-                    <div className="bg-secondary rounded-md border-3 border-accent shadow-md p-4 flex items-center gap-4">
+                    <div className="bg-secondary rounded-xl border-2 border-accent shadow-md p-4 flex items-center gap-4">
                         <button
                             type="button"
                             onClick={handleFinishLobby}
                             disabled={finishingSaving}
-                            className="font-semibold px-6 py-2 rounded-2xl border-2 border-red-500 text-red-500 cursor-pointer hover:bg-red-500 hover:text-white transition disabled:opacity-50"
+                            className="font-semibold px-6 py-2 rounded-lg border-2 border-red-500 text-red-500 cursor-pointer hover:bg-red-500 hover:text-white transition disabled:opacity-50"
                         >
                             {finishingSaving ? "Finishing..." : "Finish Lobby"}
                         </button>

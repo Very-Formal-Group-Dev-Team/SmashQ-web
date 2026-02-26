@@ -79,24 +79,24 @@ export default function QueuePage() {
         <div className="flex flex-col">
             {lobbyGames.length > 0 && (
                 <div className="mb-8">
-                    <ModalTitle color="secondary">My Games</ModalTitle>
-                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mt-4">
+                    <h1 className="text-5xl font-display text-secondary">My Games</h1>
+                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mt-8">
                         {lobbyGames.map(lg => {
                             const atLimit = lg.max_games_per_player != null && lg.games_played >= lg.max_games_per_player
                             const progressPct = lg.max_games_per_player ? Math.min((lg.games_played / lg.max_games_per_player) * 100, 100) : 0
                             return (
-                                <div key={lg.lobby_id} className="bg-secondary rounded-lg border-3 border-accent shadow-md p-4 flex flex-col gap-2">
+                                <div key={lg.lobby_id} className="bg-secondary rounded-xl border-3 border-accent hover:border-accent/80 transition duration-100 hover:shadow-lg hover:shadow-accent/20 shadow-md px-8 py-6 flex flex-col gap-3">
                                     <div className="flex justify-between items-start">
-                                        <p className="font-display text-lg truncate">{lg.lobby_name}</p>
+                                        <p className="font-sans font-black text-2xl text-accent truncate">{lg.lobby_name}</p>
                                         <button
                                             type="button"
                                             onClick={() => handleLeaveLobby(lg.lobby_id)}
-                                            className="text-red-400 hover:text-red-600 text-xs font-semibold cursor-pointer shrink-0 ml-2"
+                                            className="text-red-400 hover:text-red-600 text-sm font-semibold cursor-pointer shrink-0 mt-1 ml-2"
                                         >
-                                            Leave
+                                            Leave ✖
                                         </button>
                                     </div>
-                                    <div className="flex items-baseline gap-2">
+                                    <div className="flex items-center gap-2">
                                         <span className={`text-3xl font-bold ${atLimit ? "text-red-500" : "text-primary"}`}>
                                             {lg.games_played}
                                         </span>
@@ -104,7 +104,7 @@ export default function QueuePage() {
                                             <span className="text-gray-400 text-sm">/ {lg.max_games_per_player} games</span>
                                         )}
                                         {lg.max_games_per_player == null && (
-                                            <span className="text-gray-400 text-sm">games played</span>
+                                            <span className="text-gray-500 text-sm">games played</span>
                                         )}
                                     </div>
                                     {lg.max_games_per_player != null && (

@@ -73,7 +73,7 @@ export default function AnalyticsPage() {
 
     return (
         <div className="w-full">
-            <h1 className="font-display text-secondary text-4xl md:text-5xl mb-10">Analytics</h1>
+            <h1 className="font-display text-secondary text-4xl md:text-5xl mb-10">Lobby Analytics</h1>
 
             {loading && <p className="text-secondary text-center text-lg">Loading lobbies...</p>}
             {error && <p className="text-red-400 text-center">{error}</p>}
@@ -87,12 +87,19 @@ export default function AnalyticsPage() {
                     <button
                         key={lobby.lobby_id}
                         onClick={() => handleLobbyClick(lobby)}
-                        className="group bg-secondary border-3 border-accent rounded-xl p-6 text-left cursor-pointer
+                        className="group bg-secondary border-3 border-accent rounded-xl px-7 py-6 text-left cursor-pointer
                                    transform transition duration-150 hover:-translate-y-1 hover:shadow-xl"
                     >
-                        <h2 className="font-black text-accent text-2xl truncate">
-                            {lobby.lobby_name || `Lobby ${lobby.lobby_id}`}
-                        </h2>
+                        <div className="flex items-center justify-between">
+                            <h2 className="font-black text-accent text-2xl truncate">
+                                {lobby.lobby_name || `Lobby ${lobby.lobby_id}`}
+                            </h2>
+                            <div>
+                                <span className="inline-block bg-accent/10 text-accent text-xs font-semibold px-3 py-1 rounded-full">
+                                    Finished
+                                </span>
+                            </div>
+                        </div>
                         <div className="mt-3 flex flex-col gap-1 text-accent/70 text-sm">
                             <span>{lobby.number_of_players ?? 0} players</span>
                             <span>{new Date(lobby.created_at).toLocaleDateString("en-US", {
@@ -101,11 +108,7 @@ export default function AnalyticsPage() {
                                 year: "numeric",
                             })}</span>
                         </div>
-                        <div className="mt-4">
-                            <span className="inline-block bg-accent/10 text-accent text-xs font-semibold px-3 py-1 rounded-full">
-                                Finished
-                            </span>
-                        </div>
+                        
                     </button>
                 ))}
             </div>

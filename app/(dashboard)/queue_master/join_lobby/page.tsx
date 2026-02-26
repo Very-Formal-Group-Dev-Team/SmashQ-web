@@ -55,7 +55,7 @@ export default function JoinLobbiesPage() {
                         <p className="font-display text-4xl flex items-center gap-2">Join via Link</p>
                         <FaLink className="text-3xl"/>
                     </div>
-                    <div className="flex flex-col items-center gap-3">
+                    <div className="flex flex-col items-center gap-6">
                         <Input 
                             type="url"
                             placeholder="Paste join link or lobby ID"

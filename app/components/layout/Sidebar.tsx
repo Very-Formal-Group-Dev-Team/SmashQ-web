@@ -53,7 +53,7 @@ export default function Sidebar({ isOpen, close }: SidebarProps) {
 
     function handleLogout() {
         logout()
-        router.push("/landing_page")
+        router.push("/")
     }
 
     return (

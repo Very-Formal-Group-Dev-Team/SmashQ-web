@@ -35,11 +35,12 @@ export default function LandingPage() {
 
     return (
         <div className="bg-primary min-h-screen flex flex-col">
-            <header className="bg-secondary text-4xl flex justify-between items-center px-8 md:px-16 py-5 border-b-2 border-accent shadow-md sticky top-0 z-50">
+            {/* Header */}
+            <header className="bg-secondary flex justify-between items-center px-8 md:px-16 py-5 border-b-2 border-accent shadow-md sticky top-0 z-50">
                 <SmashQTitle />
                 <button
                     onClick={() => router.push("/login")}
-                    className="hidden md:block font-bold text-sm text-secondary bg-accent py-2 px-6 rounded-md cursor-pointer transition duration-200 hover:bg-green-400 hover:shadow-lg"
+                    className="hidden md:block font-bold text-sm text-gray-800 bg-primary py-2 px-6 rounded-md cursor-pointer transition duration-200 hover:shadow-lg hover:scale-105"
                 >
                     Sign In
                 </button>
@@ -49,10 +50,10 @@ export default function LandingPage() {
                 {/* Hero Section */}
                 <section className="px-8 md:px-16 py-16 md:py-24 flex flex-col gap-8 md:items-center text-center">
                     <div className="flex flex-col gap-4 max-w-4xl mx-auto">
-                        <h1 className="font-sans font-bold text-6xl md:text-7xl text-[#FFFFF2] leading-tight">
+                        <h1 className="font-display font-bold text-5xl md:text-7xl text-white leading-tight">
                             Your Intelligent Sports Matchmaking Platform
                         </h1>
-                        <p className="text-xl text-[#E8E8D0] max-w-2xl mx-auto">
+                        <p className="text-lg text-gray-100 max-w-2xl mx-auto">
                             Manage courts, match players, and run tournaments with our next-generation queueing and matchmaking system
                         </p>
                     </div>
@@ -60,13 +61,13 @@ export default function LandingPage() {
                     <div className="flex flex-col md:flex-row gap-4 md:justify-center">
                         <button
                             onClick={() => router.push("/register")}
-                            className="font-bold text-lg text-[#FFFFF2] bg-accent py-3 px-8 rounded-md cursor-pointer transition duration-200 hover:bg-green-400 hover:shadow-lg hover:scale-105"
+                            className="font-bold text-base text-white bg-accent py-3 px-8 rounded-md cursor-pointer transition duration-200 hover:shadow-lg hover:scale-105"
                         >
                             Get Started Free
                         </button>
                         <button
                             onClick={() => router.push("/login")}
-                            className="font-bold text-lg text-accent bg-transparent border-2 border-accent py-3 px-8 rounded-md cursor-pointer transition duration-200 hover:bg-accent hover:text-secondary md:hidden"
+                            className="font-bold text-base text-accent bg-secondary border-2 border-accent py-3 px-8 rounded-md cursor-pointer transition duration-200 hover:bg-tertiary md:hidden"
                         >
                             Sign In
                         </button>
@@ -74,19 +75,19 @@ export default function LandingPage() {
                 </section>
 
                 {/* Features Section */}
-                <section className="px-8 md:px-16 py-16 bg-secondary/30">
+                <section className="px-8 md:px-16 py-16 bg-secondary/50">
                     <div className="max-w-6xl mx-auto">
-                        <h2 className="text-4xl md:text-5xl font-bold text-[#FFFFF2] text-center mb-12">
+                        <h2 className="text-4xl md:text-5xl font-bold text-accent text-center mb-12">
                             Why Choose SmashQ?
                         </h2>
                         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                             {features.map((feature, index) => (
                                 <div
                                     key={index}
-                                    className="bg-primary/50 p-6 rounded-lg border border-accent/30 hover:border-accent transition duration-300 hover:shadow-lg hover:shadow-accent/20"
+                                    className="bg-secondary p-6 rounded-lg border border-accent/20 hover:border-accent hover:shadow-lg transition duration-300"
                                 >
-                                    <h3 className="text-xl font-bold text-accent mb-3">{feature.title}</h3>
-                                    <p className="text-[#E8E8D0]">{feature.description}</p>
+                                    <h3 className="text-lg font-bold text-primary mb-3">{feature.title}</h3>
+                                    <p className="text-gray-700">{feature.description}</p>
                                 </div>
                             ))}
                         </div>
@@ -95,9 +96,9 @@ export default function LandingPage() {
 
                 {/* Benefits Section */}
                 <section className="px-8 md:px-16 py-16">
-                    <div className="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+                    <div className="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-12">
                         <div className="flex flex-col gap-6">
-                            <h2 className="text-4xl font-bold text-[#FFFFF2]">For Court Operators</h2>
+                            <h2 className="text-3xl font-bold text-white">For Court Operators</h2>
                             <ul className="flex flex-col gap-4">
                                 {[
                                     "Reduce operational overhead with automated management",
@@ -105,15 +106,15 @@ export default function LandingPage() {
                                     "Access detailed analytics and reporting",
                                     "Increase player satisfaction with fair matchmaking"
                                 ].map((benefit, idx) => (
-                                    <li key={idx} className="flex items-start gap-3 text-[#E8E8D0]">
-                                        <span className="text-accent font-bold mt-1">✓</span>
+                                    <li key={idx} className="flex items-start gap-3 text-gray-100">
+                                        <span className="text-accent font-bold mt-1 flex-shrink-0">✓</span>
                                         <span>{benefit}</span>
                                     </li>
                                 ))}
                             </ul>
                         </div>
                         <div className="flex flex-col gap-6">
-                            <h2 className="text-4xl font-bold text-[#FFFFF2]">For Players</h2>
+                            <h2 className="text-3xl font-bold text-white">For Players</h2>
                             <ul className="flex flex-col gap-4">
                                 {[
                                     "Join queues instantly without manual coordination",
@@ -121,8 +122,8 @@ export default function LandingPage() {
                                     "Track your performance and progress",
                                     "Build your competitive profile"
                                 ].map((benefit, idx) => (
-                                    <li key={idx} className="flex items-start gap-3 text-[#E8E8D0]">
-                                        <span className="text-accent font-bold mt-1">✓</span>
+                                    <li key={idx} className="flex items-start gap-3 text-gray-100">
+                                        <span className="text-accent font-bold mt-1 flex-shrink-0">✓</span>
                                         <span>{benefit}</span>
                                     </li>
                                 ))}
@@ -132,19 +133,19 @@ export default function LandingPage() {
                 </section>
 
                 {/* CTA Section */}
-                <section className="px-8 md:px-16 py-16 bg-accent/10 border-t border-accent/30">
+                <section className="px-8 md:px-16 py-16 bg-secondary/50 border-t border-accent/30">
                     <div className="max-w-4xl mx-auto text-center flex flex-col gap-8">
                         <div>
-                            <h2 className="text-4xl md:text-5xl font-bold text-[#FFFFF2] mb-4">
+                            <h2 className="text-4xl md:text-5xl font-bold text-accent mb-4">
                                 Ready to Transform Your Sports Platform?
                             </h2>
-                            <p className="text-xl text-[#E8E8D0]">
+                            <p className="text-lg text-gray-800">
                                 Join thousands of courts and players already using SmashQ
                             </p>
                         </div>
                         <button
                             onClick={() => router.push("/register")}
-                            className="w-full md:w-auto font-bold text-lg text-[#FFFFF2] bg-accent py-3 px-12 rounded-md cursor-pointer transition duration-200 hover:bg-green-400 hover:shadow-lg hover:scale-105 mx-auto"
+                            className="font-bold text-base text-white bg-accent py-3 px-12 rounded-md cursor-pointer transition duration-200 hover:shadow-lg hover:scale-105 mx-auto"
                         >
                             Start Your Free Trial
                         </button>
@@ -153,17 +154,17 @@ export default function LandingPage() {
             </main>
 
             {/* Footer */}
-            <footer className="bg-secondary text-[#E8E8D0] border-t border-accent/30 px-8 md:px-16 py-8">
+            <footer className="bg-secondary border-t border-accent/30 px-8 md:px-16 py-8">
                 <div className="max-w-6xl mx-auto flex flex-col md:flex-row justify-between items-center gap-8">
                     <div>
                         <p className="font-bold text-accent mb-2">SmashQ</p>
-                        <p className="text-sm">The future of sports matchmaking</p>
+                        <p className="text-sm text-gray-700">The future of sports matchmaking</p>
                     </div>
-                    <div className="flex gap-8 text-sm">
-                        <button onClick={() => router.push("/login")} className="hover:text-accent transition">Sign In</button>
-                        <button onClick={() => router.push("/register")} className="hover:text-accent transition">Sign Up</button>
-                        <a href="#" className="hover:text-accent transition">Privacy</a>
-                        <a href="#" className="hover:text-accent transition">Terms</a>
+                    <div className="flex gap-8 text-sm text-gray-700">
+                        <button onClick={() => router.push("/login")} className="hover:text-primary transition font-medium">Sign In</button>
+                        <button onClick={() => router.push("/register")} className="hover:text-primary transition font-medium">Sign Up</button>
+                        <a href="#" className="hover:text-primary transition font-medium">Privacy</a>
+                        <a href="#" className="hover:text-primary transition font-medium">Terms</a>
                     </div>
                 </div>
             </footer>
