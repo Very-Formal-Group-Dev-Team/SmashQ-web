@@ -122,10 +122,11 @@ export default function MatchCard({
 
     if (variant === "lobby") {
         return (
-            <div className="text-accent bg-secondary w-full h-48 p-5 rounded-md border-3 border-accent flex flex-col justify-between transform duration-150 hover:-translate-y-1.5 hover:shadow-xl">
+            <div className="text-accent bg-secondary w-full h-48 p-5 rounded-md border-3 border-accent hover:border-accent/80 transition duration-200 hover:shadow-lg hover:shadow-accent/20 flex flex-col justify-between transform hover:-translate-y-1.5">
                 <button
                     type="button"
                     onClick={onClick}
+                    disabled={isOngoing}
                     className="flex flex-col gap-2 cursor-pointer text-left flex-1 min-h-0"
                 >
                     <div className="flex justify-between items-center w-full">
@@ -183,7 +184,7 @@ export default function MatchCard({
     }
 
     return (
-        <div className="text-accent bg-secondary w-full max-w-200 py-6 sm:py-8 px-6 sm:mx-8 rounded-md shadow-lg border-3 border-accent flex flex-col items-center gap-4">
+        <div className="text-accent bg-secondary w-full max-w-200 py-6 sm:py-8 px-6 sm:mx-8 rounded-md border-3 border-accent hover:border-accent/80 transition duration-200 hover:shadow-lg hover:shadow-accent/20 flex flex-col items-center gap-4">
             <div className="flex flex-col items-center gap-1">
                 <h3 className="text-xl sm:text-2xl font-extrabold">{displayName}</h3>
                 {lobbyName && <p className="text-xs text-gray-500">{lobbyName}</p>}
