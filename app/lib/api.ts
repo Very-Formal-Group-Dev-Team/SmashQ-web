@@ -117,6 +117,17 @@ export async function joinLobby(lobbyId: number | string) {
   return data as { success: boolean; message: string };
 }
 
+export async function leaveLobby(lobbyId: number | string) {
+  const res = await fetchWithAuth(`${API_BASE}/join/${lobbyId}`, {
+    method: "DELETE",
+  });
+  const data = await res.json().catch(() => ({}));
+  if (!res.ok) {
+    throw new Error(data.message || "Failed to leave lobby");
+  }
+  return data as { success: boolean; message: string };
+}
+
 // ── Lobby Endpoints ─────────────────────────────────────────
 
 export interface LobbyData {
@@ -124,8 +135,9 @@ export interface LobbyData {
   lobby_name: string;
   owner: number;
   created_at: string;
-  // optional field returned by some endpoints: number of players in lobby
   number_of_players?: number;
+  max_games_per_player?: number | null;
+  status?: string;
 }
 
 /** POST /api/lobby – auth required, creates a new lobby */
@@ -161,12 +173,35 @@ export async function getLobby(lobbyId: number | string) {
   return data as { success: boolean; message: string; data: LobbyData };
 }
 
+export async function finishLobby(lobbyId: number | string) {
+  const res = await fetchWithAuth(`${API_BASE}/lobby/${lobbyId}/finish`, {
+    method: "PATCH",
+  });
+  const data = await res.json().catch(() => ({}));
+  if (!res.ok) {
+    throw new Error(data.message || "Failed to finish lobby");
+  }
+  return data as { success: boolean; data: { status: string } };
+}
+
+export async function removePlayerFromLobby(lobbyId: number | string, userId: number) {
+  const res = await fetchWithAuth(`${API_BASE}/lobby/${lobbyId}/users/${userId}`, {
+    method: "DELETE",
+  });
+  const data = await res.json().catch(() => ({}));
+  if (!res.ok) {
+    throw new Error(data.message || "Failed to remove player");
+  }
+  return data as { success: boolean; message: string };
+}
+
 // ── Lobby Users Endpoint ────────────────────────────────────
 
 export interface LobbyUser {
   id: number;
   name: string;
   joined_at: string;
+  games_played: number;
 }
 
 /** GET /api/lobby/:lobby_id/users – auth required, returns users in lobby */
@@ -232,6 +267,16 @@ export async function deleteCourt(lobbyId: number | string, courtId: number) {
   const data = await res.json().catch(() => ({}));
   if (!res.ok) throw new Error(data.message || "Failed to delete court");
   return data;
+}
+
+export async function updateCourtName(lobbyId: number | string, courtId: number, courtName: string) {
+  const res = await fetchWithAuth(`${API_BASE}/lobby/${lobbyId}/courts/${courtId}`, {
+    method: "PATCH",
+    body: JSON.stringify({ court_name: courtName }),
+  });
+  const data = await res.json().catch(() => ({}));
+  if (!res.ok) throw new Error(data.message || "Failed to update court");
+  return data as { success: boolean; data: CourtData };
 }
 
 export async function createMatch(
@@ -322,4 +367,75 @@ export async function getUserMatches() {
   const data = await res.json().catch(() => ({}));
   if (!res.ok) throw new Error(data.message || "Failed to fetch user matches");
   return data as { success: boolean; data: MatchData[] };
+}
+
+export async function autoAssignMatch(
+  lobbyId: number | string,
+  courtId: number,
+  mode: "1v1" | "2v2" = "2v2"
+) {
+  const res = await fetchWithAuth(`${API_BASE}/lobby/${lobbyId}/courts/${courtId}/auto-assign`, {
+    method: "POST",
+    body: JSON.stringify({ mode }),
+  });
+  const data = await res.json().catch(() => ({}));
+  if (!res.ok) throw new Error(data.message || "Failed to auto-assign match");
+  return data as {
+    success: boolean;
+    message: string;
+    data: {
+      team1: { id: number; name: string }[];
+      team2: { id: number; name: string }[];
+    };
+  };
+}
+
+export async function updateLobbySettings(
+  lobbyId: number | string,
+  settings: { max_games_per_player: number | null }
+) {
+  const res = await fetchWithAuth(`${API_BASE}/lobby/${lobbyId}/settings`, {
+    method: "PATCH",
+    body: JSON.stringify(settings),
+  });
+  const data = await res.json().catch(() => ({}));
+  if (!res.ok) throw new Error(data.message || "Failed to update lobby settings");
+  return data as { success: boolean; data: { max_games_per_player: number | null } };
+}
+
+export interface LobbyGamesData {
+  lobby_id: number;
+  lobby_name: string;
+  games_played: number;
+  max_games_per_player: number | null;
+}
+
+export async function getUserLobbyGames() {
+  const res = await fetchWithAuth(`${API_BASE}/lobby/user-lobby-games`);
+  const data = await res.json().catch(() => ({}));
+  if (!res.ok) throw new Error(data.message || "Failed to fetch lobby games");
+  return data as { success: boolean; data: LobbyGamesData[] };
+}
+
+export interface AnalyticsMatchData {
+  id: number;
+  court_id: number;
+  lobby_id: number;
+  status: string;
+  winner_team: number | null;
+  timer_duration: number;
+  timer_started_at: string | null;
+  started_at: string | null;
+  ended_at: string | null;
+  scheduled_at: string | null;
+  created_at: string;
+  court_name?: string;
+  players: MatchPlayer[];
+}
+
+export async function getLobbyMatches(lobbyId: number | string) {
+  const res = await fetchWithAuth(`${API_BASE}/lobby/${lobbyId}/matches`);
+  const data = await res.json().catch(() => ({}));
+  if (!res.ok) throw new Error(data.message || "Failed to fetch lobby matches");
+  return data as { success: boolean; data: AnalyticsMatchData[] };
 }

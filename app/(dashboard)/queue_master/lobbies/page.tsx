@@ -26,6 +26,15 @@ export default function QueueMasterDashboardPage() {
 
     useEffect(() => {
         fetchLobbies()
+
+        const handleVisibilityChange = () => {
+            if (!document.hidden) {
+                fetchLobbies()
+            }
+        }
+
+        document.addEventListener("visibilitychange", handleVisibilityChange)
+        return () => document.removeEventListener("visibilitychange", handleVisibilityChange)
     }, [])
 
     useEffect(() => {

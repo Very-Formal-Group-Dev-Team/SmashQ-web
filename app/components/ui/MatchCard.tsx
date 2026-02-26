@@ -1,6 +1,7 @@
 "use client"
 
 import { useEffect, useState, useRef } from "react"
+import { FaPen, FaCheck } from "react-icons/fa"
 
 interface matchCardProps {
     variant?: "lobby" | "queue"
@@ -18,6 +19,7 @@ interface matchCardProps {
     onDone?: () => void
     onStart?: () => void
     onStartNow?: () => void
+    onRename?: (newName: string) => void
 }
 
 function formatCountdown(seconds: number): string {
@@ -61,11 +63,15 @@ export default function MatchCard({
     onDone,
     onStart,
     onStartNow,
+    onRename,
 }: matchCardProps) {
     const displayName = courtName || `Court ${id}`
     const [countdown, setCountdown] = useState<number | null>(null)
     const [elapsed, setElapsed] = useState<number>(0)
     const intervalRef = useRef<ReturnType<typeof setInterval> | null>(null)
+    const [editing, setEditing] = useState(false)
+    const [editValue, setEditValue] = useState(displayName)
+    const inputRef = useRef<HTMLInputElement>(null)
 
     useEffect(() => {
         if (intervalRef.current) {
@@ -123,13 +129,52 @@ export default function MatchCard({
     if (variant === "lobby") {
         return (
             <div className="text-accent bg-secondary w-full h-48 p-5 rounded-md border-3 border-accent flex flex-col justify-between transform duration-150 hover:-translate-y-1.5 hover:shadow-xl">
-                <button
-                    type="button"
-                    onClick={onClick}
-                    className="flex flex-col gap-2 cursor-pointer text-left flex-1 min-h-0"
-                >
+                <div className="flex flex-col gap-2 flex-1 min-h-0">
                     <div className="flex justify-between items-center w-full">
-                        <h3 className="text-lg font-extrabold">{displayName}</h3>
+                        <div className="flex items-center gap-2 min-w-0 flex-1">
+                            {editing ? (
+                                <input
+                                    ref={inputRef}
+                                    type="text"
+                                    value={editValue}
+                                    onChange={(e) => setEditValue(e.target.value)}
+                                    onKeyDown={(e) => {
+                                        if (e.key === "Enter") {
+                                            const trimmed = editValue.trim()
+                                            if (trimmed && onRename) onRename(trimmed)
+                                            setEditing(false)
+                                        }
+                                        if (e.key === "Escape") {
+                                            setEditValue(displayName)
+                                            setEditing(false)
+                                        }
+                                    }}
+                                    className="text-lg font-extrabold bg-white border border-accent/30 rounded px-2 py-0.5 outline-none focus:border-primary w-full min-w-0"
+                                    autoFocus
+                                />
+                            ) : (
+                                <h3 className="text-lg font-extrabold truncate">{displayName}</h3>
+                            )}
+                            {onRename && (
+                                <button
+                                    type="button"
+                                    onClick={(e) => {
+                                        e.stopPropagation()
+                                        if (editing) {
+                                            const trimmed = editValue.trim()
+                                            if (trimmed) onRename(trimmed)
+                                            setEditing(false)
+                                        } else {
+                                            setEditValue(displayName)
+                                            setEditing(true)
+                                        }
+                                    }}
+                                    className="text-accent/40 hover:text-primary transition cursor-pointer shrink-0"
+                                >
+                                    {editing ? <FaCheck className="text-sm" /> : <FaPen className="text-xs" />}
+                                </button>
+                            )}
+                        </div>
                         {isTimerRunning && (
                             <span className="text-sm font-mono font-bold text-primary">
                                 {formatCountdown(countdown!)}
@@ -141,12 +186,18 @@ export default function MatchCard({
                             </span>
                         )}
                     </div>
-                    {team1.length === 0 && team2.length === 0 ? (
-                        <p className="text-gray-400 text-sm self-center">No players assigned</p>
-                    ) : (
-                        <PlayerGrid team1={team1} team2={team2} />
-                    )}
-                </button>
+                    <button
+                        type="button"
+                        onClick={onClick}
+                        className="cursor-pointer text-left flex-1 min-h-0"
+                    >
+                        {team1.length === 0 && team2.length === 0 ? (
+                            <p className="text-gray-400 text-sm self-center">No players assigned</p>
+                        ) : (
+                            <PlayerGrid team1={team1} team2={team2} />
+                        )}
+                    </button>
+                </div>
                 {hasMatch && (
                     <div className="flex justify-end gap-2 mt-1">
                         {isPending && onStart && (
