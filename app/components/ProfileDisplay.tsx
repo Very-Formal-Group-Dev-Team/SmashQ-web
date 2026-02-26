@@ -23,16 +23,31 @@ export default function ProfileDisplay() {
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
 
-  useEffect(() => {
+  const fetchProfile = () => {
+    setLoading(true)
+    setError(null)
     getProfile()
       .then((res) => setProfile(res.data.user))
       .catch((err) => setError(err.message))
       .finally(() => setLoading(false))
+  }
+
+  useEffect(() => {
+    fetchProfile()
+
+    const handleVisibilityChange = () => {
+      if (!document.hidden) {
+        fetchProfile()
+      }
+    }
+
+    document.addEventListener("visibilitychange", handleVisibilityChange)
+    return () => document.removeEventListener("visibilitychange", handleVisibilityChange)
   }, [])
 
   if (loading) {
     return (
-      <div className="flex-1 flex items-center justify-center -m-8 sm:-m-16 bg-primary min-h-full">
+      <div className="flex-1 flex items-center justify-center -m-4 sm:-m-8 lg:-m-16 bg-primary min-h-full">
         <span className="text-white text-lg font-medium">Loading…</span>
       </div>
     )
@@ -40,7 +55,7 @@ export default function ProfileDisplay() {
 
   if (error || !profile) {
     return (
-      <div className="flex-1 flex items-center justify-center -m-8 sm:-m-16 bg-primary min-h-full">
+      <div className="flex-1 flex items-center justify-center -m-4 sm:-m-8 lg:-m-16 bg-primary min-h-full">
         <span className="text-white text-lg font-medium">{error ?? "Failed to load profile."}</span>
       </div>
     )
@@ -51,7 +66,7 @@ export default function ProfileDisplay() {
   const avgDuration = formatDuration(Number(profile.average_match_duration ?? 0) * 60)
 
   return (
-    <div className="flex flex-col items-center justify-center -m-8 sm:-m-16 bg-primary min-h-full py-14 px-8">
+    <div className="flex flex-col items-center justify-center -m-4 sm:-m-8 lg:-m-16 bg-primary min-h-full py-14 px-4 sm:px-8">
       <div className="w-44 h-44 rounded-3xl bg-secondary flex items-center justify-center mb-8 shrink-0">
         <svg
           className="w-28 h-28 text-accent"
@@ -67,15 +82,15 @@ export default function ProfileDisplay() {
         </svg>
       </div>
 
-      <h1 className="text-white font-bold text-4xl font-display mb-1">{displayName}</h1>
+      <h1 className="text-white font-bold text-3xl sm:text-4xl font-display mb-1">{displayName}</h1>
       <p className="text-white/80 text-base mb-10">ID: {profile.id}</p>
 
-      <div className="flex flex-wrap justify-center gap-12 mb-10">
+      <div className="flex flex-wrap justify-center gap-6 sm:gap-12 mb-10">
         <StatBlock label="Age" value={profile.age ?? "—"} />
         <StatBlock label="Sex" value={profile.gender ?? "—"} />
       </div>
 
-      <div className="flex flex-wrap justify-center gap-12">
+      <div className="flex flex-wrap justify-center gap-6 sm:gap-12">
         <StatBlock label="Contact No." value={profile.contact_number ?? "—"} />
         <StatBlock label="Matches Played" value={profile.matches_played ?? 0} />
         <StatBlock label="Win Rate" value={winRate} />

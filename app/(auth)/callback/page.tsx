@@ -32,7 +32,13 @@ function CallbackHandler() {
             }
 
             refreshUser().then(() => {
-                const API_BASE = process.env.NEXT_PUBLIC_API_BASE_URL || "http://localhost:3001/api"
+                function ensureAbsoluteUrl(url: string): string {
+                    if (!/^https?:\/\//i.test(url)) return `https://${url}`
+                    return url
+                }
+                const API_BASE = ensureAbsoluteUrl(
+                    process.env.NEXT_PUBLIC_API_BASE_URL || "http://localhost:5000/api"
+                )
 
                 fetch(`${API_BASE}/auth/me`, {
                     method: "GET",
@@ -43,6 +49,12 @@ function CallbackHandler() {
                 })
                 .then(res => res.json())
                 .then(data => {
+                    const pendingLobby = localStorage.getItem("pendingJoinLobby")
+                    if (pendingLobby) {
+                        router.push(`/join/${pendingLobby}`)
+                        return
+                    }
+
                     if (data.success && data.data.user) {
                         const role = data.data.user.role
                         let target = "/player/join_lobby"
@@ -59,6 +71,11 @@ function CallbackHandler() {
                     }
                 })
                 .catch(() => {
+                    const pendingLobby = localStorage.getItem("pendingJoinLobby")
+                    if (pendingLobby) {
+                        router.push(`/join/${pendingLobby}`)
+                        return
+                    }
                     router.push("/player/join_lobby")
                 })
             })

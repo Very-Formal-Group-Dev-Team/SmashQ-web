@@ -19,7 +19,14 @@ export default function OnboardingPage() {
     const [loading, setLoading] = useState(false)
     const [error, setError] = useState<string | null>(null)
 
-    const API_BASE = process.env.NEXT_PUBLIC_API_BASE_URL || "http://localhost:5000/api"
+    function ensureAbsoluteUrl(url: string): string {
+        if (!/^https?:\/\//i.test(url)) return `https://${url}`
+        return url
+    }
+
+    const API_BASE = ensureAbsoluteUrl(
+        process.env.NEXT_PUBLIC_API_BASE_URL || "http://localhost:5000/api"
+    )
 
     async function handleSubmit(e: React.FormEvent) {
         e.preventDefault()
@@ -76,6 +83,13 @@ export default function OnboardingPage() {
             }
 
             await refreshUser()
+
+            const pendingLobby = localStorage.getItem("pendingJoinLobby")
+            if (pendingLobby) {
+                router.push(`/join/${pendingLobby}`)
+                return
+            }
+
             if (role === "Queue Master") {
                 router.push("/queue_master/lobbies")
             } else {
@@ -89,7 +103,7 @@ export default function OnboardingPage() {
 
     return (
         <div className="min-h-screen bg-primary flex flex-col items-center justify-center px-4">
-            <div className="flex flex-col items-center bg-secondary rounded-2xl py-8 px-6 w-[340px] sm:w-[400px] sm:py-10 max-w-lg text-center shadow-lg">
+            <div className="flex flex-col items-center bg-secondary rounded-2xl py-8 px-6 w-full max-w-[340px] sm:max-w-[400px] sm:py-10 text-center shadow-lg">
                 <SmashQTitle />
                 <h1 className="text-2xl font-bold mt-6 mb-1">Complete Your Profile</h1>
                 <p className="text-md font-light text-gray-600 mb-5">Please provide the following information to finish onboarding</p>

@@ -5,7 +5,7 @@ import { FiMenu } from "react-icons/fi"
 
 export default function Header({ open }: { open: () => void }) {
     return (
-        <header className="bg-secondary text-4xl flex justify-between items-center px-8 md:px-16 py-5 border-b-2 border-accent shadow-md">
+        <header className="bg-secondary text-4xl flex justify-between items-center px-4 sm:px-8 md:px-16 py-3 sm:py-5 border-b-2 border-accent shadow-md">
             <SmashQTitle />
             <button
                 type="button"

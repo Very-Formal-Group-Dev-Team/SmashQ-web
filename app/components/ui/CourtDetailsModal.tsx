@@ -6,7 +6,7 @@ import DraggablePlayerCard from "./DraggablePlayerCard"
 import Button from "./Button"
 import ModalTitle from "./ModalTitle"
 import { type DragEvent, useState, useEffect } from "react"
-import { createMatch, type LobbyUser } from "@/app/lib/api"
+import { createMatch, autoAssignMatch, type LobbyUser } from "@/app/lib/api"
 
 interface modalProps {
     open: boolean
@@ -33,13 +33,17 @@ export default function CourtDetailsModal({ open, onClose, courtId, courtName, l
     const [activeSlotDropIndex, setActiveSlotDropIndex] = useState<number | null>(null)
     const [isPoolDropActive, setIsPoolDropActive] = useState(false)
     const [saving, setSaving] = useState(false)
+    const [autoLoading, setAutoLoading] = useState(false)
+
+    const [prevOpen, setPrevOpen] = useState(false)
 
     useEffect(() => {
-        if (open) {
+        if (open && !prevOpen) {
             setAvailablePlayers(lobbyPlayers.map(p => ({ id: p.id, name: p.name })))
             setSlots([null, null, null, null])
         }
-    }, [open, lobbyPlayers])
+        setPrevOpen(open)
+    }, [open, prevOpen, lobbyPlayers])
 
     function setDragSource(event: DragEvent<HTMLDivElement>, source: DragSource) {
         event.dataTransfer.setData("application/json", JSON.stringify(source))
@@ -130,6 +134,39 @@ export default function CourtDetailsModal({ open, onClose, courtId, courtName, l
         }
     }
 
+    async function handleAutoAssign() {
+        setAutoLoading(true)
+        try {
+            const result = await autoAssignMatch(lobbyId, courtId, "2v2")
+            const { team1, team2 } = result.data
+
+            const allPool = [...availablePlayers, ...slots.filter(Boolean) as PoolPlayer[]]
+            const playerMap = new Map(allPool.map(p => [p.id, p]))
+
+            const newSlots: (PoolPlayer | null)[] = [null, null, null, null]
+            const usedIds = new Set<number>()
+
+            team1.forEach((p, i) => {
+                if (i < 2) {
+                    newSlots[i] = playerMap.get(p.id) || { id: p.id, name: p.name }
+                    usedIds.add(p.id)
+                }
+            })
+            team2.forEach((p, i) => {
+                if (i < 2) {
+                    newSlots[i + 2] = playerMap.get(p.id) || { id: p.id, name: p.name }
+                    usedIds.add(p.id)
+                }
+            })
+
+            setSlots(newSlots)
+            setAvailablePlayers(allPool.filter(p => !usedIds.has(p.id)))
+        } catch {
+        } finally {
+            setAutoLoading(false)
+        }
+    }
+
     return (
         <Modal open={open} onClose={onClose}>
             <ModalTitle>{courtName}</ModalTitle>
@@ -194,6 +231,9 @@ export default function CourtDetailsModal({ open, onClose, courtId, courtName, l
             <div className="flex gap-4 mt-8 mb-8">
                 <Button onClick={handleConfirm}>
                     {saving ? "Saving..." : "Confirm"}
+                </Button>
+                <Button inverse={true} onClick={handleAutoAssign}>
+                    {autoLoading ? "Matching..." : "Auto"}
                 </Button>
             </div>
             

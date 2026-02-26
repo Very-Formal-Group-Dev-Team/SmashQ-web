@@ -37,7 +37,7 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
             <Header open={() => setIsOpen(true)} />
             <div className="flex flex-1">
                 <Sidebar isOpen={isOpen} close={() => setIsOpen(false)} />
-                <main className="flex-1 p-8 sm:p-16">{children}</main>
+                <main className="flex-1 p-4 sm:p-8 lg:p-16">{children}</main>
             </div>
         </div>
   )

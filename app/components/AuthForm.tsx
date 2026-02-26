@@ -24,12 +24,20 @@ export default function AuthForm({ mode }: { mode: Mode }) {
     const [loading, setLoading] = useState(false)
     const router = useRouter()
     const { refreshUser } = useAuth()
-    const API_BASE = process.env.NEXT_PUBLIC_API_BASE_URL || "http://localhost:3001/api"
+    function ensureAbsoluteUrl(url: string): string {
+        if (!/^https?:\/\//i.test(url)) return `https://${url}`
+        return url
+    }
+
+    const API_BASE = ensureAbsoluteUrl(
+        process.env.NEXT_PUBLIC_API_BASE_URL || "http://localhost:5000/api"
+    )
     const API_URL = `${API_BASE}/auth`
 
     function handleGoogleAuth() {
-        const backendUrl = process.env.NEXT_PUBLIC_API_BASE_URL || "http://localhost:3001/api"
-        window.location.href = `${backendUrl}/auth/google`
+        const pendingLobby = localStorage.getItem("pendingJoinLobby")
+        const stateParam = pendingLobby ? `?state=join_${pendingLobby}` : ""
+        window.location.href = `${API_BASE}/auth/google${stateParam}`
     }
 
     async function handleRegister(e: React.MouseEvent) {
@@ -113,6 +121,12 @@ export default function AuthForm({ mode }: { mode: Mode }) {
                 // Refresh AuthContext so DashboardLayout sees the user before we navigate
                 await refreshUser()
 
+                const pendingLobby = localStorage.getItem("pendingJoinLobby")
+                if (pendingLobby) {
+                    router.push(`/join/${pendingLobby}`)
+                    return
+                }
+
                 const role = data.data.user.role
                 let target = "/player/join_lobby"
                 if (role === "Queue Master" || role === "queue master" || role === "Queue master") {
@@ -134,8 +148,8 @@ export default function AuthForm({ mode }: { mode: Mode }) {
     }
 
     return (
-        <div className="bg-primary h-lvh">
-            <form className={`pl-8 pr-8 pt-10 pb-10 bg-secondary absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 flex flex-col justify-center items-center gap-6 rounded-xl ${mode === "login" ? "w-[370px]" : "w-[370px] md:w-[750px] md:pl-12 md:pr-12"}`}>
+        <div className="bg-primary min-h-lvh flex items-center justify-center px-4 py-6">
+            <form className={`px-5 sm:px-8 pt-8 sm:pt-10 pb-8 sm:pb-10 bg-secondary flex flex-col justify-center items-center gap-4 sm:gap-6 rounded-xl w-full ${mode === "login" ? "max-w-[370px]" : "max-w-[370px] md:max-w-[750px] md:px-12"}`}>
                 <div className="flex flex-col text-center gap-1">
                     <SmashQTitle />
                     <p className="text-gray-700">
