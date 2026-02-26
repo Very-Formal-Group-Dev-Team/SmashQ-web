@@ -19,7 +19,14 @@ export default function OnboardingPage() {
     const [loading, setLoading] = useState(false)
     const [error, setError] = useState<string | null>(null)
 
-    const API_BASE = process.env.NEXT_PUBLIC_API_BASE_URL || "http://localhost:5000/api"
+    function ensureAbsoluteUrl(url: string): string {
+        if (!/^https?:\/\//i.test(url)) return `https://${url}`
+        return url
+    }
+
+    const API_BASE = ensureAbsoluteUrl(
+        process.env.NEXT_PUBLIC_API_BASE_URL || "http://localhost:5000/api"
+    )
 
     async function handleSubmit(e: React.FormEvent) {
         e.preventDefault()
@@ -76,6 +83,13 @@ export default function OnboardingPage() {
             }
 
             await refreshUser()
+
+            const pendingLobby = localStorage.getItem("pendingJoinLobby")
+            if (pendingLobby) {
+                router.push(`/join/${pendingLobby}`)
+                return
+            }
+
             if (role === "Queue Master") {
                 router.push("/queue_master/lobbies")
             } else {

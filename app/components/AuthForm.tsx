@@ -35,7 +35,9 @@ export default function AuthForm({ mode }: { mode: Mode }) {
     const API_URL = `${API_BASE}/auth`
 
     function handleGoogleAuth() {
-        window.location.href = `${API_BASE}/auth/google`
+        const pendingLobby = localStorage.getItem("pendingJoinLobby")
+        const stateParam = pendingLobby ? `?state=join_${pendingLobby}` : ""
+        window.location.href = `${API_BASE}/auth/google${stateParam}`
     }
 
     async function handleRegister(e: React.MouseEvent) {
@@ -118,6 +120,12 @@ export default function AuthForm({ mode }: { mode: Mode }) {
 
                 // Refresh AuthContext so DashboardLayout sees the user before we navigate
                 await refreshUser()
+
+                const pendingLobby = localStorage.getItem("pendingJoinLobby")
+                if (pendingLobby) {
+                    router.push(`/join/${pendingLobby}`)
+                    return
+                }
 
                 const role = data.data.user.role
                 let target = "/player/join_lobby"
