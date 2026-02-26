@@ -23,11 +23,26 @@ export default function ProfileDisplay() {
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
 
-  useEffect(() => {
+  const fetchProfile = () => {
+    setLoading(true)
+    setError(null)
     getProfile()
       .then((res) => setProfile(res.data.user))
       .catch((err) => setError(err.message))
       .finally(() => setLoading(false))
+  }
+
+  useEffect(() => {
+    fetchProfile()
+
+    const handleVisibilityChange = () => {
+      if (!document.hidden) {
+        fetchProfile()
+      }
+    }
+
+    document.addEventListener("visibilitychange", handleVisibilityChange)
+    return () => document.removeEventListener("visibilitychange", handleVisibilityChange)
   }, [])
 
   if (loading) {
