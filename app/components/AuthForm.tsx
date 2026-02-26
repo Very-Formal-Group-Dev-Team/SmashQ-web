@@ -24,12 +24,18 @@ export default function AuthForm({ mode }: { mode: Mode }) {
     const [loading, setLoading] = useState(false)
     const router = useRouter()
     const { refreshUser } = useAuth()
-    const API_BASE = process.env.NEXT_PUBLIC_API_BASE_URL || "http://localhost:5000/api"
+    function ensureAbsoluteUrl(url: string): string {
+        if (!/^https?:\/\//i.test(url)) return `https://${url}`
+        return url
+    }
+
+    const API_BASE = ensureAbsoluteUrl(
+        process.env.NEXT_PUBLIC_API_BASE_URL || "http://localhost:5000/api"
+    )
     const API_URL = `${API_BASE}/auth`
 
     function handleGoogleAuth() {
-        const backendUrl = process.env.NEXT_PUBLIC_API_BASE_URL || "http://localhost:5000/api"
-        window.location.href = `${backendUrl}/auth/google`
+        window.location.href = `${API_BASE}/auth/google`
     }
 
     async function handleRegister(e: React.MouseEvent) {

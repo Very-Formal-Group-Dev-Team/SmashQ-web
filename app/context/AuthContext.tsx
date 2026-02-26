@@ -30,11 +30,18 @@ type AuthContextType = {
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined)
 
+function ensureAbsoluteUrl(url: string): string {
+  if (!/^https?:\/\//i.test(url)) return `https://${url}`
+  return url
+}
+
 export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [user, setUser] = useState<User | null>(null)
   const [loading, setLoading] = useState(true)
 
-  const API_BASE = process.env.NEXT_PUBLIC_API_BASE_URL || "http://localhost:5000/api"
+  const API_BASE = ensureAbsoluteUrl(
+    process.env.NEXT_PUBLIC_API_BASE_URL || "http://localhost:5000/api"
+  )
 
   const loadUser = useCallback(async () => {
     setLoading(true)
