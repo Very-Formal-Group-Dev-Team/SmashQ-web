@@ -115,7 +115,7 @@ export default function ProfileDisplay() {
       {/* Main Content */}
       <div className="max-w-6xl mx-auto px-4 py-6 sm:py-12">
         {/* Personal Info Section */}
-        <div className="bg-secondary rounded-2xl p-4 sm:p-6 md:p-8 border-2 border-accent hover:border-accent/80 transition duration-100 hover:shadow-lg hover:shadow-accent/20 shadow-lg mb-8">
+        <div className="bg-secondary rounded-2xl p-8 sm:p-6 md:p-8 border-2 border-accent hover:border-accent/80 transition duration-100 hover:shadow-lg hover:shadow-accent/20 shadow-lg mb-8">
           <h2 className="text-2xl font-bold text-accent mb-6 flex items-center gap-2">
             <FiUsers className="text-primary" />
             Personal Information

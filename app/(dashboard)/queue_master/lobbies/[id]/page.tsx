@@ -297,7 +297,7 @@ export default function LobbyInfoPage() {
                     <div className="flex flex-col gap-3 w-full h-full">
                         <h2 className="text-secondary text-3xl self-center font-display">ADD PLAYERS</h2>
                         <div className="bg-secondary mt-2 rounded-xl border-2 border-accent shadow-md px-4 py-6 sm:py-12 flex flex-col gap-6 sm:gap-8 justify-between items-center w-full">
-                            <div className="flex flex-col lg:flex-row items-center gap-6 lg:gap-16">
+                            <div className="flex flex-col lg:flex-row items-center gap-6 lg:gap-16 py-6 sm:py-0">
                                 <div className="flex flex-col items-center gap-2">
                                     {joinLink && !linkLoading ? (
                                         <QRCodeSVG value={joinLink} size={200} level="M" className="max-w-full h-auto" />

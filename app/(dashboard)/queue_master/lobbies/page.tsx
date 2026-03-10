@@ -45,7 +45,7 @@ export default function QueueMasterDashboardPage() {
         fetchLobbies()
     }
     return (
-        <div className="">
+        <div className="mt-8 lg:mt-0">
             {loading && <p className="text-secondary text-center">Loading lobbies...</p>}
             {error && <p className="text-red-500 text-center">{error}</p>}
             <ol className="flex flex-wrap gap-6 sm:gap-16 justify-center"> 
