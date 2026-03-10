@@ -224,7 +224,7 @@ export default function LobbyInfoPage() {
     }
 
     return (
-        <div className="flex flex-col gap-8">
+        <div className="flex flex-col gap-8 min-w-0">
             <div className="flex flex-col items-center gap-2">
                 <h1 className="text-secondary text-3xl sm:text-4xl md:text-6xl text-center font-display break-words">{lobby ? lobby.lobby_name : `Lobby ${lobbyId}`}</h1>
                 {isFinished && (
@@ -232,8 +232,8 @@ export default function LobbyInfoPage() {
                 )}
             </div>
             
-            <div className="flex flex-col xl:flex-row gap-10 lg:gap-16">
-                <div className="flex flex-col gap-3 w-full">
+            <div className="flex flex-col xl:flex-row gap-10 lg:gap-16 min-w-0">
+                <div className="flex flex-col gap-3 w-full min-w-0">
                     <h2 className="text-secondary text-3xl font-display self-center">PLAYERS ({players.length})</h2>
                     <div className="bg-secondary w-full h-full mt-2 rounded-xl border-2 border-accent shadow-md p-4 sm:p-8 lg:p-12">
                         {playersLoading && <p className="text-center text-gray-500">Loading players...</p>}
@@ -300,14 +300,14 @@ export default function LobbyInfoPage() {
                             <div className="flex flex-col lg:flex-row items-center gap-6 lg:gap-16">
                                 <div className="flex flex-col items-center gap-2">
                                     {joinLink && !linkLoading ? (
-                                        <QRCodeSVG value={joinLink} size={250} level="M" />
+                                        <QRCodeSVG value={joinLink} size={200} level="M" className="max-w-full h-auto" />
                                     ) : (
-                                        <div className="bg-white border w-[250px] aspect-square flex items-center justify-center text-gray-400">
+                                        <div className="bg-white border w-full max-w-[200px] aspect-square flex items-center justify-center text-gray-400">
                                             {linkLoading ? "Loading..." : "No link"}
                                         </div>
                                     )}
                                     <p
-                                        className="text-md sm:text-md cursor-pointer hover:underline break-all max-w-[250px] text-center"
+                                        className="text-md sm:text-md cursor-pointer hover:underline break-all max-w-[200px] text-center"
                                         onClick={handleCopyLink}
                                         title="Click to copy"
                                     >
