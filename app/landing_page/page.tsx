@@ -50,7 +50,7 @@ export default function LandingPage() {
                 {/* Hero Section */}
                 <section className="px-8 md:px-16 py-16 md:py-24 flex flex-col gap-8 md:items-center text-center">
                     <div className="flex flex-col gap-4 max-w-4xl mx-auto">
-                        <h1 className="font-display font-bold text-5xl md:text-7xl text-white leading-tight">
+                        <h1 className="font-display font-bold text-4xl sm:text-5xl md:text-7xl text-white leading-tight">
                             Your Intelligent Sports Matchmaking Platform
                         </h1>
                         <p className="text-lg text-gray-100 max-w-2xl mx-auto">
@@ -160,7 +160,7 @@ export default function LandingPage() {
                         <p className="font-bold text-accent mb-2">SmashQ</p>
                         <p className="text-sm text-gray-700">The future of sports matchmaking</p>
                     </div>
-                    <div className="flex gap-8 text-sm text-gray-700">
+                    <div className="flex flex-wrap justify-center gap-x-6 gap-y-2 text-sm text-gray-700">
                         <button onClick={() => router.push("/login")} className="hover:text-primary transition font-medium">Sign In</button>
                         <button onClick={() => router.push("/register")} className="hover:text-primary transition font-medium">Sign Up</button>
                         <a href="#" className="hover:text-primary transition font-medium">Privacy</a>

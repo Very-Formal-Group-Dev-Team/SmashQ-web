@@ -226,7 +226,7 @@ export default function LobbyInfoPage() {
     return (
         <div className="flex flex-col gap-8">
             <div className="flex flex-col items-center gap-2">
-                <h1 className="text-secondary text-4xl sm:text-6xl text-center font-display">{lobby ? lobby.lobby_name : `Lobby ${lobbyId}`}</h1>
+                <h1 className="text-secondary text-3xl sm:text-4xl md:text-6xl text-center font-display break-words">{lobby ? lobby.lobby_name : `Lobby ${lobbyId}`}</h1>
                 {isFinished && (
                     <span className="bg-red-500 text-white text-sm font-bold px-4 py-1 rounded-full">FINISHED</span>
                 )}
@@ -235,13 +235,14 @@ export default function LobbyInfoPage() {
             <div className="flex flex-col xl:flex-row gap-10 lg:gap-16">
                 <div className="flex flex-col gap-3 w-full">
                     <h2 className="text-secondary text-3xl font-display self-center">PLAYERS ({players.length})</h2>
-                    <div className="bg-secondary w-full h-full mt-2 rounded-xl border-2 border-accent shadow-md p-12">
+                    <div className="bg-secondary w-full h-full mt-2 rounded-xl border-2 border-accent shadow-md p-4 sm:p-8 lg:p-12">
                         {playersLoading && <p className="text-center text-gray-500">Loading players...</p>}
                         {playersError && <p className="text-center text-red-500">{playersError}</p>}
                         {!playersLoading && !playersError && players.length === 0 && (
                             <p className="text-center text-gray-600">No players yet. Share the join link to invite players!</p>
                         )}
                         {!playersLoading && players.length > 0 && (
+                            <div className="overflow-x-auto">
                             <table className="w-full text-left">
                                 <thead>
                                     <tr className="border-b border-accent">
@@ -287,6 +288,7 @@ export default function LobbyInfoPage() {
                                     })}
                                 </tbody>
                             </table>
+                            </div>
                         )}
                     </div>
                 </div>
@@ -294,7 +296,7 @@ export default function LobbyInfoPage() {
                 {!isFinished && (
                     <div className="flex flex-col gap-3 w-full h-full">
                         <h2 className="text-secondary text-3xl self-center font-display">ADD PLAYERS</h2>
-                        <div className="bg-secondary mt-2 rounded-xl border-2 border-accent shadow-md px-4 py-12 flex flex-col gap-8 justify-between items-center w-full">
+                        <div className="bg-secondary mt-2 rounded-xl border-2 border-accent shadow-md px-4 py-6 sm:py-12 flex flex-col gap-6 sm:gap-8 justify-between items-center w-full">
                             <div className="flex flex-col lg:flex-row items-center gap-6 lg:gap-16">
                                 <div className="flex flex-col items-center gap-2">
                                     {joinLink && !linkLoading ? (
@@ -340,7 +342,7 @@ export default function LobbyInfoPage() {
             {!isFinished && (
                 <div className="flex flex-col gap-3">
                     <h2 className="text-secondary text-3xl font-display">SETTINGS</h2>
-                    <div className="bg-secondary rounded-xl border-2 border-accent shadow-md p-4 flex flex-row items-center gap-4">
+                    <div className="bg-secondary rounded-xl border-2 border-accent shadow-md p-4 flex flex-col sm:flex-row items-start sm:items-center gap-4">
                         <div className="flex flex-col gap-3">
                             <label className="ml-0.5 text-lg text-accent font-semibold">Max Games Per Player</label>
                             <input

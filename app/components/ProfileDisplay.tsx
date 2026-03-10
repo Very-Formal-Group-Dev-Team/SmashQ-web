@@ -86,12 +86,12 @@ export default function ProfileDisplay() {
   return (
     <div className="min-h-full flex flex-col items-center">
       {/* Hero Section */}
-      <div className="text-white py-12 px-4 mr-3">
+      <div className="text-white py-8 sm:py-12 px-4">
         <div className="max-w-6xl mx-auto flex flex-col md:flex-row items-center gap-8">
           {/* Avatar */}
-          <div className="w-44 h-44 rounded-3xl bg-tertiary flex items-center justify-center shrink-0 shadow-2xl border-4 border-accent">
+          <div className="w-28 h-28 sm:w-36 sm:h-36 md:w-44 md:h-44 rounded-3xl bg-tertiary flex items-center justify-center shrink-0 shadow-2xl border-4 border-accent">
             <svg
-              className="w-28 h-28 text-accent"
+              className="w-16 h-16 sm:w-20 sm:h-20 md:w-28 md:h-28 text-accent"
               viewBox="0 0 24 24"
               fill="none"
               stroke="currentColor"
@@ -106,16 +106,16 @@ export default function ProfileDisplay() {
 
           {/* Header Info */}
           <div className="flex-1 text-center md:text-left">
-            <h1 className="text-5xl font-display font-bold mb-2">{displayName}</h1>
+            <h1 className="text-3xl sm:text-4xl md:text-5xl font-display font-bold mb-2 break-words">{displayName}</h1>
             <p className="text-green-50 text-lg mb-4">ID: {profile.id}</p>
           </div>
         </div>
       </div>
 
       {/* Main Content */}
-      <div className="max-w-6xl mx-auto px-4 py-12">
+      <div className="max-w-6xl mx-auto px-4 py-6 sm:py-12">
         {/* Personal Info Section */}
-        <div className="bg-secondary rounded-2xl p-8 border-2 border-accent hover:border-accent/80 transition duration-100 hover:shadow-lg hover:shadow-accent/20 shadow-lg mb-8">
+        <div className="bg-secondary rounded-2xl p-4 sm:p-6 md:p-8 border-2 border-accent hover:border-accent/80 transition duration-100 hover:shadow-lg hover:shadow-accent/20 shadow-lg mb-8">
           <h2 className="text-2xl font-bold text-accent mb-6 flex items-center gap-2">
             <FiUsers className="text-primary" />
             Personal Information

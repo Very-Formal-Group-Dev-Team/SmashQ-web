@@ -77,7 +77,7 @@ export default function Sidebar({ isOpen, close }: SidebarProps) {
                     <IoClose />
                 </button>
 
-                <nav className="flex flex-col p-8 gap-36 text-lg justify-between">
+                <nav className="flex flex-col p-6 sm:p-8 gap-24 sm:gap-36 text-lg justify-between">
                     <div className="flex flex-col gap-3">
                         {navItems.map((item) => {
                             const isActive = pathname.startsWith(item.href);

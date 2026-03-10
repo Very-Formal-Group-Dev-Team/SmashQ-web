@@ -177,7 +177,7 @@ export default function LobbyStatsModal({ open, onClose, data, loading }: Props)
                                         <h3 className="font-black text-accent text-lg">Most Wins</h3>
                                     </div>
                                     <p className="text-accent text-2xl font-black">{mvp.name}</p>
-                                    <div className="flex gap-6 mt-2 text-sm text-accent/70">
+                                    <div className="flex flex-wrap gap-x-4 gap-y-1 sm:gap-6 mt-2 text-sm text-accent/70">
                                         <span>{mvp.wins} wins</span>
                                         <span>{mvp.losses} losses</span>
                                         <span>{mvp.winrate}% winrate</span>
